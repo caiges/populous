@@ -1,0 +1,23 @@
+{% extends "weather/base_weather.html" %}
+
+
+{% block title %}Forecast archive for {{ month|date:"F Y" }}{% endblock %}
+{% block body_id %}forecast_archive{% endblock %}
+
+
+{% block content_title %}
+  <h2>Forecast archive for {{ month|date:"F Y" }}</h2>
+{% endblock %}
+
+
+{% block content %}
+  <div class="forecast_list">
+    {% for forecast in object_list %}
+    {% ifchanged forecast.observation_time.day %}
+    <div>
+      <h3 class="title"><a href="{% url forecast_year month.year %}{{month|date:"b" }}/{{ forecast.observation_time.day }}/">{{ forecast.observation_time|date:"F d" }}</a></h3>
+    </div>
+    {% endifchanged %}
+    {% endfor %}
+  </div>
+{% endblock %}

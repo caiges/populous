@@ -1,0 +1,16 @@
+{% extends "weather/base_weather.html" %}
+
+
+{% block title %}Forecast archive  {% endblock %}
+{% block body_id %}forecast_archive{% endblock %}
+
+
+{% block content %}
+  {% load markup %}
+  <h2>Forecast archive </h2>
+  <ul class="link_list">
+    {% for year in date_list %}
+    <li><a href="{% url forecastday_year year.year %}">{{ year|date:"Y" }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "weather/base_weather.html" %}
+
+
+{% block title %}{{ object.title }}{% endblock %}
+{% block body_id %}forecast_detail_page{% endblock %}
+
+
+{% block content %}
+Forecast: {{ object.location }}
+Date: {{ object.forecast_date }}
+{% endblock %}

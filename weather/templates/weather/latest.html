@@ -1,0 +1,14 @@
+{% extends "weather/base_weather.html" %}
+
+{% block title %}Current Forecast{% endblock %}
+{% block body_id %}forecast_detail_page{% endblock %}
+
+{% block content %}
+{% load generic_content %}
+{% get_latest_object weather.forecast as object %}
+obj: {{ object }}<br>
+Forecast: {{ object.location }}<br>
+Date: {{ object.observation_time }}<br>
+Temp: {{ object.temperature }}<br>
+Conditions: {{ object.conditions }}<br>
+{% endblock %}

@@ -1,0 +1,67 @@
+[
+    {
+        "pk": 1, 
+        "model": "categories.category", 
+        "fields": {
+            "representation": "[Root]", 
+            "name": "Root", 
+            "parent": null
+        }
+    },{
+        "pk": 2, 
+        "model": "categories.category", 
+        "fields": {
+            "representation": "Stories/", 
+            "name": "Stories", 
+            "parent": 1
+        }
+    },{
+        "pk": 3, 
+        "model": "categories.category", 
+        "fields": {
+            "representation": "Stories/News/", 
+            "name": "News", 
+            "parent": 2
+        }
+    },{
+        "pk": 4,
+        "model": "categories.category",
+        "fields": {
+            "representation": "Stories/Sports/",
+            "name": "Sports",
+            "parent": 2
+        }
+    },{
+        "pk": 5,
+        "model": "categories.category",
+        "fields": {
+            "representation": "Stories/Viewpoint/",
+            "name": "Viewpoint",
+            "parent": 2
+        }
+    },{
+        "pk": 6,
+        "model": "categories.category",
+        "fields": {
+            "representation": "Blogs/",
+            "name": "Blogs",
+            "parent": 1
+        }
+    },{
+        "pk": 7,
+        "model": "categories.category",
+        "fields": {
+            "representation": "Blogs/Sports",
+            "name": "Sports",
+            "parent": 6
+        }
+    },{
+        "pk": 8,
+        "model": "categories.category",
+        "fields": {
+            "representation": "Blogs/Viewpoint",
+            "name": "Viewpoint",
+            "parent": 6
+        }
+    }
+]

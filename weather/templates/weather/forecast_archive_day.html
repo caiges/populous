@@ -1,0 +1,27 @@
+{% extends "weather/base_weather.html" %}
+
+
+{% block title %}Forecast archive for {{ day|date:"d F Y" }}{% endblock %}
+{% block body_id %}forecast_archive{% endblock %}
+
+
+{% block content_title %}
+  <h2>Forecast archive for {{ day|date:"d F Y" }}</h2>
+{% endblock %}
+
+
+{% block content %}
+  <div class="forecast_list">
+    {% for forecast in object_list %}
+    <div>
+      {% ifchanged forecast.observation_time.hour %}
+      Forecast for Hour: {{ forecast.observation_time.hour }}
+      <h3 class="title"><a href="{{ forecast.get_absolute_url }}">{{ forecast.observation_time }}</a></h3>
+      Temp: <p class="date">{{ forecast.temperature }}</p>
+      Wind Speed: <p class="date">{{ forecast.wind_speed }}</p>
+      Wind Direction: <p class="date">{{ forecast.wind_direction }}</p>
+      {% endifchanged %}
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}

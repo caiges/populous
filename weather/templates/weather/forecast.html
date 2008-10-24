@@ -1,0 +1,16 @@
+{% extends "weather/base_weather.html" %}
+
+{% block title %}{{ object.location }} current Forecast{% endblock %}
+{% block body_id %}forecast_detail_page{% endblock %}
+
+{% block content %}
+Next 7 days:<br>
+{% load generic_content %}
+{% get_latest_objects weather.forecastday 7 as days %}
+{% for object in days %}
+obj: {{ object }}<br>
+Forecast: {{ object.location }}<br>
+Date: {{ object.forecast_date }}<br>
+Temp: {{ object.high_temp }}<br>
+{% endfor %}
+{% endblock %}
