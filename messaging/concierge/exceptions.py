@@ -1,0 +1,2 @@
+class ConciergeError(BaseException):
+    pass

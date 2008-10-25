@@ -1,0 +1,2 @@
+class SMSMessage(object):
+    pass

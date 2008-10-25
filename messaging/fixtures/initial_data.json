@@ -1,0 +1,106 @@
+[
+    {
+        "pk": "1",
+        "model": "messaging.SMSProvider",
+        "fields": {
+            "name": "AT&T Wireless",
+            "domain": "mobile.att.net"
+        }
+    },
+    {
+        "pk": "2",
+        "model": "messaging.SMSProvider",
+        "fields": {
+            "name": "Cingular",
+            "domain": "mobile.mycingular.com"
+        }
+    },
+    {
+        "pk": "3",
+        "model": "messaging.SMSProvider",
+        "fields": {
+            "name": "Nextel",
+            "domain": "messaging.nextel.com"
+        }
+    },
+    {
+        "pk": "4",
+        "model": "messaging.SMSProvider",
+        "fields": {
+            "name": "Qwest Wireless",
+            "domain": "qwestmp.com"
+        }
+    },
+    {
+        "pk": "5",
+        "model": "messaging.SMSProvider",
+        "fields": {
+            "name": "Sprint PCS",
+            "domain": "messaging.sprintpcs.com"
+        }
+    },
+    {
+        "pk": "6",
+        "model": "messaging.SMSProvider",
+        "fields": {
+            "name": "T-Mobile (VoiceStream)",
+            "domain": "voicestream.net"
+        }
+    },
+    {
+        "pk": "7",
+        "model": "messaging.SMSProvider",
+        "fields": {
+            "name": "Verizon",
+            "domain": "vtext.com"
+        }
+    },
+    {
+        "pk": "8",
+        "model": "messaging.SMSProvider",
+        "fields": {
+            "name": "Alltel",
+            "domain": "message.alltel.com"
+        }
+    },
+    {
+        "pk": "9",
+        "model": "messaging.SMSProvider",
+        "fields": {
+            "name": "Cellular One",
+            "domain": "mobile.celloneusa.com"
+        }
+    },
+    {
+        "pk": "10",
+        "model": "messaging.SMSProvider",
+        "fields": {
+            "name": "VoiceStream",
+            "domain": "voicestream.net"
+        }
+    },
+    {
+        "pk": "11",
+        "model": "messaging.SMSProvider",
+        "fields": {
+            "name": "voicestream.net",
+            "domain": "vmobl.com"
+        }
+    },
+    {
+        "pk": "12",
+        "model": "messaging.SMSProvider",
+        "fields": {
+            "name": "Unicel",
+            "domain": "utext.com"
+        }
+    },
+    {
+        "pk": "13",
+        "model": "messaging.SMSProvider",
+        "fields": {
+            "name": "Other",
+            "domain": "teleflip.com"
+        }
+    }
+]
