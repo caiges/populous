@@ -1,0 +1,93 @@
+{{ default }}
+<style>
+    form .aligned .markItUpHeader ul {
+        margin: 0;
+        padding: 0 0 0 5px;
+    }
+	#inline-inline_box {
+		position: absolute;
+		top:50%; left:50%;
+		background:#FFF;
+		border:1px solid #3C769D;
+		outline::1px solid #3C769D;
+		width:400px; 
+		font:12px "Trebuchet MS", Tahoma, sans-serif;
+		zindex:10;
+		display:none;
+		z-index: 100;
+	}
+	
+	#inline-inline_box {
+	top:10%; left:40%;
+	}
+	
+	#inline-content h1 {
+		background:#FFF url({{ MEDIA_URL }}markitup/skins/simple/images/bg-container.png) repeat-x top left;
+		border-bottom:1px solid #3C769D;
+		color:#000;
+		cursor:pointer;
+		padding: 5px;
+	}
+	
+	#inline-content p {
+	   margin: 0;
+	   padding: 10px;
+	}
+	
+	.toolbar {
+		position:relative;
+	}
+	.toolbar .close,
+	.toolbar .handle {
+		text-indent:-1000px;
+		overflow:hidden;
+		width:16px; height:16px;
+		display:block;
+		position:absolute;
+		top:5px; 
+	}
+	.toolbar .close {
+		background:transparent url({{ MEDIA_URL }}markitup/skins/simple/images/close.png) no-repeat top left;
+		right:5px;
+	}
+	.toolbar .handle {
+		background:transparent url({{ MEDIA_URL }}markitup/skins/simple/images/move.png) no-repeat top left;
+		right:25px;
+		cursor:move;
+	}
+        
+        
+          .block { 
+    border: 2px solid #0090DF;
+    background-color: #68BFEF;
+    width: 150px; 
+    height: 70px;
+    margin: 10px; 
+  }
+</style>
+<script type="text/javascript" >
+    var inline_box = $('<div style="display: none" id="inline-inline_box"><div class="toolbar"><a href="#" class="handle">Move</a> <a href="#" class="close">Close</a></div><div id="inline-content"><h1>Inline Modal</h1><p>HI!</p></div></div>');
+    //var block = $('<div class="block"></div>');
+    $(document).ready(function() {
+        dragProp = { handle:".handle", zIndex:100, opacity:0.9, scroll:1 };
+        mySettings.markupSet.push({name:'Inlines', className:'inlines', dropMenu: {% autoescape off %}{{ inlines }}{% endautoescape %}});
+        //modal.draggable();
+            $("#{{ attrs.id }}").markItUp(mySettings);
+            inline_box.insertBefore($('#markItUp{{ attrs.id|capfirst }}')).hide().draggable(dragProp);
+            
+            $('a.close').click(function() {
+                $(this).parent().parent().hide();
+                return false;   // Stop from following '#' href
+            });
+            $('a.handle').click(function() {
+                return false;   // Stop from following '#' href
+            });
+            
+            $('.markItUpButton').click(function(e){
+                inline_box.css({
+                    top: e.pageY - 75 + 'px',
+                    left: e.pageX + 50 + 'px'
+                });
+            });
+    });
+</script>

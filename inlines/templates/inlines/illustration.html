@@ -1,0 +1,16 @@
+{% load photos %}
+<div class="{{ class }} illustration-inline">
+<h4>Illustration</h4>
+<a onclick="window.open('{{ obj.get_absolute_url }}','photowin','width={% if obj.width %}{% if obj.caption %}{{ obj.width|add:"430" }}{% else %}{{ obj.width|add:"25" }}{% endif %}{% else %}880{% endif %},height={% if obj.height %}{{ obj.height|add:"100" }}{% else %}600{% endif %},scrollbars=yes,resizable=yes'); return false;" href="{{ obj.get_absolute_url }}" title="Click to enlarge photo"><img src="{{ obj.get_photo_url|thumbnail:"135" }}" align="center" alt="{{ obj.caption|escape }}" /></a>
+{% if obj.photographer_id %}
+<p class="illustrator">Illustration by {% if obj.photographer_id %}{{ obj.get_photographer.first_name }} {{ obj.get_photographer.last_name }}{% endif %}{{ obj.credit }}</p>
+{% endif %}
+
+{% if obj.credit %}
+<p class="credit">{{ obj.credit }}</p>
+{% endif %}
+
+{% if displaycaption %}{% if obj.caption %}
+<p class="caption">{{ obj.caption }}</p>
+{% endif %}{% endif %}
+</div>
