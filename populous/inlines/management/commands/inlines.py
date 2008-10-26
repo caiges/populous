@@ -6,10 +6,7 @@ from populous.inlines.models import RegisteredInline, RegisteredInlineField
 from optparse import make_option
 
 class Command(BaseCommand):
-    option_list = BaseCommand.option_list + (
-        make_option('-v', '--verbose', action="store_true", default=False, dest='verbose',
-            help="Make lots of noise."),
-    )
+    option_list = BaseCommand.option_list
     allowed_args = ['sync', 'reset']
     help = 'Management commands for the Inlines app.'
     args = '%s [appname ...]' % "|".join(allowed_args)
