@@ -10,9 +10,15 @@ info.
 """
 
 class DBusBackend(object):
-    send(self, fail_silently=True):
+    def get_protocols(self):
+        pass
+    
+    def send(self, fail_silently=True):
         pass
 
 class XMLRPCBackend(object):
-    send(self, fail_silently=True):
+    def get_protocols(self):
+        pass
+    
+    def send(self, fail_silently=True):
         pass
