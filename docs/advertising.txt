@@ -1,0 +1,40 @@
+===========
+Advertising
+===========
+
+This software is the result of several revisions of the advertising
+system for `The Daily Bruin`_.  It has been designed to fill the
+needs of our advertising department while meeting the demands of
+us the programmers.
+
+While the initial release was only designed to serve ads for
+`The Daily Bruin`_, this is the first release which has been designed
+to work across *ALL* of our websites.
+
+.. admonition:: Note
+
+    Django's single database limitation forced us to come up with some
+    workarounds in order to get this to work the way we desired, but
+    we think we've come up with a pretty solid solution.
+
+.. _`The Daily Bruin`: http://www.dailybruin.com
+
+
+Resources
+=========
+
+The following resources can be used to learn more about how to use the
+advertising software:
+
+- `User Guide`_
+- `Developer Guide`_
+
+  - `Model Docs`_
+  - `View Docs`_
+  - `Template Tag Docs`_
+
+.. _`User Guide`: docs/advertising_user
+.. _`Developer Guide`: docs/advertising_developer
+.. _`Model Docs`: docs/code/models
+.. _`View Docs`: docs/code/views
+.. _`Template Tag Docs`: docs/code/templatetags

@@ -1,0 +1,96 @@
+======================================
+Advertising Administration: User Guide
+======================================
+
+.. admonition:: Balancing power and ease of use
+
+    As mentioned earlier, this software was designed with power and
+    *ease of use* in mind.  Often it is difficult to find the appropriate
+    balance between these two things.  This guide will attempt to help
+    with any confusing parts of the application.
+
+The advertising system is broken down into two main components;
+``Advertising`` and ``Advertisements``.  The ``Advertising`` module
+contains all of the functions related to managing the advertising
+system, while the ``Advertisements`` modules contains all the
+functionality regarding the actual advertisements.
+
+Advertising
+===========
+
+The ``Advertising`` module contains *three* main components; ``Clients``, 
+``Placements`` and ``Statistics``.  The ``Clients`` component, as it sounds,
+allows for the administration of clients who have (or will in the near future)
+run ads with us.  The ``Placements`` component controls which advertisements
+show up on which site and page.  ``Placements`` are powerful and very flexible
+but require some interaction between the advertising staff and the developers.
+The ``Statistics`` component allows you to view statistics for both
+``Advertisements`` as well as ``Placements``.
+
+Clients
+-------
+
+Creating a client is pretty straight forward.  Under the ``Advertising`` module
+you will see ``Clients``.  Clicking on this will take you to a page which
+displays a list of current and past clients.
+
+.. _`Creating a Client`:
+
+To add a new client simply click on ``Add client`` in the top right and you will
+be taken to a form which contains a bunch of fields to help identify and keep
+track of your clients.  After filling out the appropriate fields, click ``save``.
+
+Placements
+----------
+
+``Placements`` are the gateway through which ads are displayed on the website.
+Placements are tied to *specific* locations on a website or multiple websites.
+Because of this, **adding Placements in the admin interface is not supported**.
+The reason for this is pretty simple; ``Placements`` are complicated and if not
+created properly can *severely* damage the way in which the website loads.  It
+is for this reason that we've decided that the advertising staff must come to the
+development department in order to add new ``Placements``.
+
+With that said, creating ``Placements`` is a fairly trivial exercise for those trained
+to do so.  So don't be afraid to ask for a placement to be created if there is demand
+for one!
+
+Statistics
+----------
+
+Another new feature of this release is a ``Statistics`` component.  When an ad is created
+(see `Creating an Ad`_) and added to a placement, a ``Statistic`` is automatically created.
+This ``Statistic`` keeps track of the following for ad ``ad`` and placement ``placement``:
+
+
+* Starting date of ``ad`` in ``placement``.
+* Ending date of ``ad`` in ``placement`` (date ``ad`` stopped showing up in ``placement``).
+* Number of ``impressions`` received by ``ad`` while running at ``placement``.
+* Number of ``click-throughs`` received by ``ad`` while running at ``placement``.
+
+These four attributes allow for a lot of information to be compiled for a certain ad and or
+placement.
+
+
+Advertisements
+==============
+
+The ``Advertisements`` module contains the different types of advertisements
+which we can run on our websites.  There are four types of advertisements
+that are available by default:
+
+* ``Text Ads``
+* ``Graphic Ads``
+* ``Video Ads``
+* ``Coupons``
+
+These will be explained in further detail below; see `Creating an Ad`_.
+
+.. `Creating an Ad`_:
+
+Creating an Ad
+--------------
+
+.. Note::
+
+    **TODO**: Discuss how to create and run an ad

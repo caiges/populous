@@ -1,0 +1,21 @@
+Software
+========
+Below is a list of software that is required for SMPE.  The optional
+software is optional (duh) but highly recommended for increased
+performance.
+
+Required
+--------
+
+  * libxml2 (http://xmlsoft.org/downloads.html)
+  * libxslt (http://xmlsoft.org/downloads.html)
+  * lxml >= 2.0.7 (http://codespeak.net/lxml/index.html)
+  * ElementTree >= 1.3 (http://svn.effbot.org/public/elementtree-1.3/)
+
+
+Optional
+--------
+
+  * cjson >= 1.0.5
+  * cElementTree >= 1.0.6 (http://svn.effbot.org/public/celementtree/)
+

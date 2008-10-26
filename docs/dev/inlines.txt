@@ -1,0 +1,68 @@
+===========
+Inlines API
+===========
+
+.. module:: populous.inlines.base
+
+.. currentmodule:: populous.inlines
+
+The inlines system in Populous is used by both the `news` app and the `blogs` app.  Both of these apps use the inline system to make it easier to add objects *inline* with text content.
+
+The default system is designed to work with the ``django.contrib.admin`` app.
+
+Quick Example
+=============
+
+This example inline defines a ``TextInline``, which will store a ``title`` and some ``content``::
+
+    from populous.inlines import Inline, InlineForm
+    from django import forms
+
+    class TextInline(Inline):
+        name = 'Text box'
+        
+        class AdminForm(InlineForm):
+            title = forms.CharField()
+            content = forms.CharField(widget=forms.Textarea)
+
+Creating Inlines
+================
+
+.. class:: Inline(registry)
+
+The base ``Inline`` class should be sub-classed to create you own inline.  Every ``Inline`` has a number of useful attributes and methods.
+
+.. attribute:: Inline.admin_form
+
+A django.forms.Form subclass that is used to generate a form for the creation of a new inline.  You can use any form you like but it must define a render method that outputs the proper HTML to edit the inline in the admin interface.  Populous includes a convenient form class, InlineForm, for you to subclass which provides a render method.  This can also be defined as an inner ``class AdminForm``; see :class:`~Inline.AdminForm`.  Whichever you define is fine, but you must** define one or the other.
+
+.. attribute:: Inline.app_label
+
+This attribute is automatically calculated using the same method that a Django model does.  However, if you wish, you can manually define it.
+
+.. attribute:: Inline.default_template
+
+It is generally good practice to give your inline the ability to load a custom, user-defined template.  However, you should define a default template.
+
+.. attribute:: Inline.display_group
+.. attribute:: Inline.name
+
+This is the internal name for the inlines.  This needs to be unique when taken with :attr:`app_label<Inline.app_label>`.  
+The default value is derived from the class name, so if your inline class is called ``TextInline``, its ``name`` 
+attribute will be ``textinline``.
+
+.. attribute:: Inline.verbose_name
+
+The name of the inline as will appear in the admin.  If not defined, Populous will use a munged version of the class name: ``TextInline`` becomes ``text inline``.
+
+.. attribute:: Inline.verbose_name_plural
+
+.. class:: Inline.AdminForm(InlineForm)
+
+Instead of 
+
+
+Registering Inlines
+===================
+
+Once you have created a new inline, you need to let the system know that it is available for use.  You do this by `registering` it with the ``registry``.

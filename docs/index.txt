@@ -1,0 +1,23 @@
+.. _index:
+
+======================
+Populous Documentation
+======================
+
+The documentation for Populous has been divided into two main sections.  Those wishing
+to learn how to use Populous will want to check out the :ref:`End-User Documentation<enduser-overview>`,
+while developers wishing to learn how Populous works will want to check out the
+:ref:`Developer Documentation<dev-overview>`.
+
+Contents:
+
+.. toctree::
+   :maxdepth: 2
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
