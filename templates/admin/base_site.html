@@ -3,7 +3,10 @@
 
 {% block title %}{{ title }} | {% trans 'Django site admin' %}{% endblock %}
 
-{% block extrahead %}<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.js"></script>{% endblock%}
+{% block extrahead %}
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui.js"></script>
+{% endblock%}
 
 {% block branding %}
 <h1 id="site-name">{% trans 'Populous administration' %}</h1>
