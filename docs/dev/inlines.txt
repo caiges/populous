@@ -2,11 +2,9 @@
 Inlines API
 ===========
 
-.. module:: populous.inlines.base
+.. module:: inlines
 
-.. currentmodule:: populous.inlines
-
-The inlines system in Populous is used by both the `news` app and the `blogs` app.  Both of these apps use the inline system to make it easier to add objects *inline* with text content.
+The inlines system in Populous has two main concepts; using the inline system in your own model and creating your own inline to be used by other applications.  In Populous, both the `news` app and the `blogs` app use ``InlineField``, while apps like ``polls`` and ``locations`` define their own *inlines* by subclassing ``BaseInline``.
 
 The default system is designed to work with the ``django.contrib.admin`` app.
 
@@ -25,8 +23,20 @@ This example inline defines a ``TextInline``, which will store a ``title`` and s
             title = forms.CharField()
             content = forms.CharField(widget=forms.Textarea)
 
+Let's say that you just created this inline for your app ``my_app``.  You would place this code into a file called ``inlines.py`` inside of your ``my_app`` directory.  Here is an example of what your application layout might look like::
+
+    my_app/
+        __init__.py
+        admin.py
+        inlines.py
+        models.py
+        views.py
+        urls.py
+
 Creating Inlines
 ================
+
+.. currentmodule:: inlines.base
 
 .. class:: Inline(registry)
 
