@@ -31,14 +31,13 @@ class InlineTextareaWidget(Textarea):
     class Media:
         css = {
             'all': (
-                "%smarkitup/skins/simple/style.css" % settings.MEDIA_URL, 
-                "%smarkitup/sets/newsml/style.css" % settings.MEDIA_URL,)
+                "%sinlines/markitup/skins/simple/style.css" % settings.MEDIA_URL, 
+                "%sinlines/markitup/sets/newsml/style.css" % settings.MEDIA_URL,)
         }
         
         js = (
-            "%sjs/jquery-1.2.6.min.js" % settings.MEDIA_URL,
-            "%smarkitup/jquery.markitup.js" % settings.MEDIA_URL,
-            "%smarkitup/sets/newsml/set.js" % settings.MEDIA_URL,
+            "%sinlines/markitup/jquery.markitup.js" % settings.MEDIA_URL,
+            "%sinlines/markitup/sets/newsml/set.js" % settings.MEDIA_URL,
             )
     
     def render(self, name, value, attrs=None):
