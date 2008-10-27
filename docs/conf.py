@@ -33,7 +33,7 @@ templates_path = ['_templates']
 source_suffix = '.txt'
 
 # The master toctree document.
-master_doc = 'overview'
+master_doc = 'contents'
 
 # General substitutions.
 project = 'Populous'
@@ -113,14 +113,14 @@ html_last_updated_fmt = '%b %d, %Y'
 
 # If true, SmartyPants will be used to convert quotes and dashes to
 # typographically correct entities.
-#html_use_smartypants = True
+html_use_smartypants = True
 
 # Custom sidebar templates, maps document names to template names.
 #html_sidebars = {}
 
 # Additional templates that should be rendered to pages, maps page names to
 # template names.
-#html_additional_pages = {}
+html_additional_pages = {}
 
 # If false, no module index is generated.
 #html_use_modindex = True
@@ -132,7 +132,7 @@ html_last_updated_fmt = '%b %d, %Y'
 #html_split_index = False
 
 # If true, the reST sources are included in the HTML build as _sources/<name>.
-#html_copy_source = True
+html_copy_source = True
 
 # If true, an OpenSearch description file will be output, and all pages will
 # contain a <link> tag referring to it.  The value of this option must be the

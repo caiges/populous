@@ -1,4 +1,4 @@
-.. _enduser-overview:
+.. _enduser-index:
 
 ======================
 End-user Documentation

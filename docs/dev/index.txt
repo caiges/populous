@@ -1,11 +1,10 @@
-.. _dev-overview:
+.. _dev-index:
 
 =======================
 Developer Documentation
 =======================
 
 .. toctree::
+    :glob:
 
-    advertising
-    inlines
-    messaging
+    ./*
