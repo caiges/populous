@@ -1,6 +1,6 @@
-======================================
-Advertising Administration: User Guide
-======================================
+===========
+Advertising
+===========
 
 .. admonition:: Balancing power and ease of use
 

@@ -1,6 +1,8 @@
-=========
-Messaging
-=========
+=============
+Messaging API
+=============
+
+.. module:: messaging
 
 Populous comes with a comprehensive messaging system that includes the ability to
 send messages through a variety of different protocols.
@@ -37,3 +39,9 @@ parameters are optional and can be set at any time prior to calling the
     * ``body``: The body text. This should be a plain text message.
     
     * ``to``: A list or tuple of recipient tuples (see note).
+
+
+Sending an SMS
+==============
+
+TODO: Write this...

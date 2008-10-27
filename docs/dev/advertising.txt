@@ -1,0 +1,6 @@
+===============
+Advertising API
+===============
+
+.. Note::
+    **TODO**: Write this
