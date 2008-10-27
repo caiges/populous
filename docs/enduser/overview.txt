@@ -3,3 +3,7 @@
 ======================
 End-user Documentation
 ======================
+
+.. toctree::
+
+    advertising

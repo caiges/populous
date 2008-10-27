@@ -3,3 +3,9 @@
 =======================
 Developer Documentation
 =======================
+
+.. toctree::
+
+    advertising
+    inlines
+    messaging

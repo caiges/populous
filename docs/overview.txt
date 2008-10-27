@@ -1,18 +1,23 @@
-=============
-SMPE Overview
-=============
+.. _index:
 
-Add some info...
+======================
+Populous Documentation
+======================
 
+The documentation for Populous has been divided into two main sections.  Those wishing
+to learn how to use Populous will want to check out the :ref:`End-User Documentation<enduser-overview>`,
+while developers wishing to learn how Populous works will want to check out the
+:ref:`Developer Documentation<dev-overview>`.
 
-Detailed Docs
-=============
+Contents:
 
-* Advertising_
+.. toctree::
+   :maxdepth: 2
 
-  * `User Guide`_
-  * `Developer Guide`_
+Indices and tables
+==================
 
-.. _Advertising: advertising.txt
-.. _`User Guide`: advertising_user.txt
-.. _`Developer Guide`: advertising_developer.txt
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
