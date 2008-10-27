@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
+from django.template.defaultfilters import capfirst
 
 from populous.inlines.managers import RegisteredInlineManager, RegisteredInlineFieldManager
 
@@ -55,10 +56,13 @@ class RegisteredInlineField(models.Model):
         unique_together = (('app_label', 'model_name', 'field_name'),)
     
     def __unicode__(self):
-        return u"%s: %s" % (self.model_name, self.field_name)
+        return u"%s.%s" % (capfirst(self.model_name), self.field_name)
     
 
 class AllowedField(models.Model):
     inline = models.ForeignKey(RegisteredInline)
     field = models.ForeignKey(RegisteredInlineField)
     sites = models.ManyToManyField(Site)
+    
+    def __unicode__(self):
+        return unicode(self.field)
