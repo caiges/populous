@@ -37,7 +37,7 @@ master_doc = 'index'
 
 # General substitutions.
 project = 'Populous'
-copyright = '2008 Student Media UCLA.  Weston Nielson, David Martin'
+copyright = 'Student Media UCLA' 
 
 # The default replacements for |version| and |release|, also used in various
 # other places throughout the built documents.
@@ -158,8 +158,7 @@ htmlhelp_basename = 'Populousdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, document class [howto/manual]).
 latex_documents = [
-  ('index', 'Populous.tex', 'Populous Documentation',
-   'Weston Nielson, David Martin', 'manual'),
+  ('index', 'Populous.tex', 'Populous Documentation', copyright, 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
