@@ -2,5 +2,7 @@
 Advertising API
 ===============
 
+.. module:: advertising
+
 .. Note::
     **TODO**: Write this

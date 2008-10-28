@@ -12,7 +12,7 @@
 # serve to show the default value.
 
 import sys, os
-from django.utils.version import get_svn_revision
+from populous.utils.version import get_svn_revision
 
 # If your extensions are in another directory, add it here. If the directory
 # is relative to the documentation root, use os.path.abspath to make it
@@ -33,7 +33,7 @@ templates_path = ['_templates']
 source_suffix = '.txt'
 
 # The master toctree document.
-master_doc = 'contents'
+master_doc = 'index'
 
 # General substitutions.
 project = 'Populous'
