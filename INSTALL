@@ -19,3 +19,16 @@ Optional
   * cjson >= 1.0.5
   * cElementTree >= 1.0.6 (http://svn.effbot.org/public/celementtree/)
 
+Debian Install
+--------------
+
+General:
+apt-get install build-essential libssl-dev xinetd openssl sysvconfig rsync nfs-common ssh openssh-server python-flup python-imaging python-markdown python-xapian python-cjson python-psycopg2 python-docutils python-setuptools imagemagick wv libwv-dev memcached -y
+
+Populous:
+apt-get install build-essential apache2-mpm-prefork python-imaging python-markdown python-xapian python-cjson python-psycopg2 python-docutils imagemagick wv libwv-dev memcached -y
+
+AND
+
+Python-memcached API:
+    ftp://ftp.tummy.com/pub/python-memcached/python-memcached-1.43.tar.gz
