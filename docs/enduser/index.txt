@@ -1,9 +1,0 @@
-.. _enduser-index:
-
-======================
-End-user Documentation
-======================
-
-.. toctree::
-
-    advertising

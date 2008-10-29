@@ -5,7 +5,7 @@ Populous Documentation
 ======================
 
 The documentation for Populous has been divided into two main sections.  Those wishing
-to learn how to use Populous will want to check out the :ref:`End-User Documentation<enduser-index>`,
+to learn how to use Populous will want to check out the :ref:`User Documentation<user-index>`,
 while developers wishing to learn how Populous works will want to check out the
 :ref:`Developer Documentation<dev-index>`.
 
@@ -14,7 +14,7 @@ Contents:
 .. toctree::
    :maxdepth: 2
     
-   enduser/index
+   user/index
    dev/index
 
 

@@ -6,22 +6,40 @@ Inlines API
 
 .. module:: inlines
 
-The inlines system in Populous has two main concepts; using the inline system in your own application and creating your own inline to be used by other applications.  In Populous, both the ``news`` app and the ``blogs`` app use ``InlineField``, while apps like ``polls`` and ``locations`` define their own inlines by subclassing ``BaseInline``.
+The inlines application in Populous has two main concepts; using the inline system in your own application and creating your own inline to be used by other applications.  In Populous, both the ``news`` app and the ``blogs`` app use ``InlineField``, while apps like ``polls`` and ``locations`` define their own inlines by subclassing ``BaseInline``.
 
 Giving your application the ability to use preexisting inlines is very simple.  All you need to do is define a field that is an instance of  ``inlines.InlineField``.  Under the surface ``InlineField`` is a subclass of ``django.models.XMLField`` with added functionality that integrates with the rest of the inlines system.
 
-Creating an inline that other applications can use is also very straight forward.  In the most basic case, all you need to do is define a subclass of ``inlines.Inline``.  In fact, the processes of creating an inline is pretty similar to defining a sublass of ``ModelAdmin`` for use in Django's admin interface.
+Creating an inline that other applications can use is also very straight forward.  In the most basic case, all you need to do is define a subclass of ``inlines.Inline``.  In fact, the processes of creating an inline is pretty similar to defining a subclass of ``ModelAdmin``, when working with Django's admin interface.
 
-The default system is designed to work with the ``django.contrib.admin`` app.
+.. Note::
+    By default the inlines application is designed to work with the ``django.contrib.admin`` application.  However, there's nothing stopping you from using it elsewhere.  These docs should help you get a grasp on how the application works and how you can extend it to meet your needs.
+
+
+Overview
+========
+
+The application deals with the following concepts:
+
+.. glossary::
+
+    Inline
+        A class for creating your own inlines that other applications can use.
+    
+    InlineForm
+        A subclass of ``Form`` for creating a form capable of editing your custom inline.
+    
+    InlineField
+        A class that can be added to your models to give them the ability to use inlines that have been installed.
 
 Quick Example
-=============
+-------------
 
 Let's pretend you have an application called ``polls`` and you would like to allow your users to be able to add a ``Poll`` object into the body of a news ``Story``.  This example inline defines a ``PollInline``::
 
-    from populous.inlines import ModelInline, InlineForm
+    from populous import inlines
 
-    class PollInline(ModelInline):
+    class PollInline(inlines.ModelInline):
         name = 'Poll Inline'
         model = Poll
 
@@ -35,17 +53,17 @@ You would place this code into a file called ``inlines.py`` inside of your ``pol
         views.py
         urls.py
 
-When you run ``syncdb`` your newly created ``PollInline`` will be automatically registered with the system (alternativley you can run a management command; more on that later).  If you log into the admin site and head over to inlines, you'll see that it has been automatically detected and is now ready for use by any ``InlineField`` instance.  You should see a screen similar to this:
+When you run ``syncdb`` your newly created ``PollInline`` will be automatically registered with the system (alternatively you can run a management command; more on that later).  If you log into the admin site and head over to inlines, you'll see that it has been automatically detected and is now ready for use by any ``InlineField`` instance.  You should see a screen similar to this:
 
 .. image:: _images/inlines01.png
     :alt: Django admin showing newly created PollInline
 
-Creating Inlines
-================
+Inline Class
+============
 
 .. currentmodule:: inlines.base
 
-All inlines are subclasses of ``inlines.base.Inline``
+All inlines are subclasses of ``inlines.base.Inline``.  	
 
 .. class:: Inline(registry)
 
@@ -76,15 +94,29 @@ The name of the inline as will appear in the admin.  If not defined, Populous wi
 
 .. attribute:: Inline.verbose_name_plural
 
+Same as ``verbose_name`` but use when a plural form is needed.  If you don't define this, then an attempt at auto-pluralization will be made.
+
 .. class:: Inline.AdminForm(InlineForm)
 
-Instead of 
+Instead of defining ``admin_form``, you can define an inner ``AdminForm`` class within your inline which should be a subclass of ``Form``.  For convenience, the inlines application comes with an ``InlineForm`` class which you can subclass instead of ``Form``.
+
+Here is a slightly more complex inline than shown above::
+    
+    from django import forms
+    from populous import inlines
+
+    class ImageWithCaptionInline(inlines.Inline):
+        name = 'Image with caption'
+        
+        class AdminForm(inlines.InlineForm):
+            url = forms.URLField()
+            caption = forms.CharField(widget=forms.TextArea())
 
 
-Registering Inlines
-===================
+Installing Inlines
+==================
 
-Once you have created a new inline and have placed it in a file named ``inlines.py`` within your application's folder you can run ``syncdb`` and your new inline will automatically be registered.  Additionally, there are a few management commands that come with the inlines application, which include:
+Once you have created a new inline and have placed it in a file named ``inlines.py`` within your application's folder you can run ``syncdb`` and your new inline will automatically be installed.  Additionally, there are a few management commands that come with the inlines application, which include:
 
 sync
 ----
