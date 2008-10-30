@@ -65,13 +65,9 @@ Inline Class
 
 All inlines are subclasses of ``inlines.base.Inline``.  	
 
-.. class:: Inline(registry)
+.. class:: Inline()
 
-The base ``Inline`` class should be sub-classed to create you own inline.  Every ``Inline`` has a number of useful attributes and methods, explained below.
-
-.. attribute:: Inline.admin_form
-
-A ``django.forms.Form`` subclass that is used to generate a form for the creation of a new inline.  You can use any form you like but it must define a render method that outputs the proper HTML to edit the inline in the admin interface.  Populous includes a convenient form class, InlineForm, for you to subclass which provides a render method.  This can also be defined as an inner ``class AdminForm``; see :class:`~Inline.AdminForm`.  Whichever you define is fine, but you **must** define one or the other.
+The base ``Inline`` class should be subclassed to create you own inline.  Every ``Inline`` has a number of useful attributes and methods, explained below.
 
 .. attribute:: Inline.app_label
 
@@ -82,6 +78,14 @@ This attribute is automatically calculated using the same method that a Django m
 It is generally good practice to give your inline the ability to load a custom, user-defined template.  However, you should define a default template.
 
 .. attribute:: Inline.display_group
+
+This controls how inlines are grouped in the admin.  Under the hood this is used to generate ``optgroup`` tags.  If you don't specify this, then ``app_label`` will be used automatically instead.
+
+.. attribute:: Inline.form
+
+A ``django.forms.Form`` subclass that is used to generate a form for the creation of a new inline.  You can use any form you like but it must define a render method that outputs the proper HTML to edit the inline in the admin interface.  Populous includes a convenient form class, InlineForm, for you to subclass which provides a render method.  You can also override ``get_form`` to provide more customized form generation; see :class:`~Inline.get_form`.
+
+
 .. attribute:: Inline.name
 
 This is the internal name for the inlines.  This needs to be unique when taken with :attr:`app_label<Inline.app_label>`.  
@@ -96,9 +100,9 @@ The name of the inline as will appear in the admin.  If not defined, Populous wi
 
 Same as ``verbose_name`` but use when a plural form is needed.  If you don't define this, then an attempt at auto-pluralization will be made.
 
-.. class:: Inline.AdminForm(InlineForm)
+.. method:: Inline.get_form(request, content_type, field, obj_id=None)
 
-Instead of defining ``admin_form``, you can define an inner ``AdminForm`` class within your inline which should be a subclass of ``Form``.  For convenience, the inlines application comes with an ``InlineForm`` class which you can subclass instead of ``Form``.
+If you override this method, you must make sure that it returns as valid subclass of ``InlineForm``.
 
 Here is a slightly more complex inline than shown above::
     
