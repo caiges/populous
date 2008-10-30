@@ -16,7 +16,7 @@ class Inline(object):
     verbose_name = None
     verbose_name_plural = None  # Calculated automatically
     display_group = None        # A string which denotes how to group this inline with other inlines.  Defaults to app_label
-    admin_form = None           # The Form class which can be used to create a valid inline instance
+    form = None                 # The Form class which can be used to create a valid inline instance
     default_template = None     # The default template used when render() is called on this inline's instance
     app_label = None            # Conputed automatically based on location in codebase (same method as Django uses for models)
     name = None                 # This must be unique per app
@@ -30,18 +30,14 @@ class Inline(object):
         self.verbose_name = self.verbose_name or get_verbose_name(inline_class.__name__)
         self.verbose_name_plural = self.verbose_name_plural or string_concat(self.verbose_name, 's')
         self.display_group = self.display_group or self.app_label
-        
-        self.admin_form = self.admin_form or getattr(self, 'AdminForm', None)
-        self._prepare_admin_form()
     
-    def _prepare_admin_form(self):
+    def get_form(self, request, content_type, field, obj_id=None):
         """
-        Subclasses can override this to provide more customized admin_form options.  In the default
-        case, we just want to raise an exception if no admin_form is provided and an inner
-        AdminForm class cannot found.
+        Subclasses can override this to provide more customized form options.  In the default
+        case, we just want to raise an exception if no form is provided.
         """
-        if self.admin_form is None:
-            raise ImproperlyConfigured, 'You must define either an admin_form attribute or an AdminForm class. %s' % self.__class__.__name__
+        if self.form is None:
+            raise ImproperlyConfigured, 'You must define a form attribute for %s.' % self.__class__.__name__
     
     def validate(self, **kwargs):
         pass
@@ -64,11 +60,11 @@ class ModelInline(Inline):
         self.model = self.model or get_model(self.app_label, self.model)
         super(ModelInline, self).__init__()
     
-    def _prepare_admin_form(self):
+    def get_form(self, request, content_type, field, obj_id=None):
         """
-        Custom method override which creates a sane default AdminForm.
+        Custom method override which creates a sane default form.
         """
-        if self.admin_form is None:
+        if self.form is None:
             defaults = {'label': capfirst(self.model._meta.verbose_name)}
             if self.raw_id_admin:
                 formfield = forms.CharField
@@ -83,7 +79,7 @@ class ModelInline(Inline):
                     defaults['queryset'] = self.model._default_manager.all()
                 else:
                     defaults['queryset'] = self.model._default_manager.complex_filter(self.limit_choices_to)
-            self.admin_form = form_from_fields(self.model.__name__ + 'InlineModelForm', InlineForm,
+            self.form = form_from_fields(self.model.__name__ + 'InlineModelForm', InlineForm,
                                                                     {self.model.__name__.lower(): formfield(**defaults)})
     
     def render(self):
