@@ -1,16 +1,16 @@
-Here is a basic example of how to use the inlines system:
+Here is a basic example of how to use the inlines system.
 
 populous/news/inlines.py::
 
-from django import forms
-from populous import inlines
-from populous.news.models import Story
+    from django import forms
+    from populous import inlines
+    from populous.news.models import Story
 
-class StoryInline(inlines.ModelInline):
-    model = Story
-    raw_id_admin = False
-    description = "This is a description of what this inline does."
-    author = "Billy Bob"
+    class StoryInline(inlines.ModelInline):
+        model = Story
+        raw_id_admin = False
+        description = "This is a description of what this inline does."
+        author = "Billy Bob"
     
-    class AdminForm(inlines.InlineForm):
-        model = forms.ModelChoiceField(queryset=Story.objects.all())
+        class AdminForm(inlines.InlineForm):
+            model = forms.ModelChoiceField(queryset=Story.objects.all())
