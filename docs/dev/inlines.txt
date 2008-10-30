@@ -35,12 +35,12 @@ The application deals with the following concepts:
 Quick Example
 -------------
 
-Let's pretend you have an application called ``polls`` and you would like to allow your users to be able to add a ``Poll`` object into the body of a news ``Story``.  This example inline defines a ``PollInline``::
+Let's pretend you have an application called ``polls`` and you would like to allow your users to be able to add a ``Poll`` object into the body of a news ``Story``.  This example inline defines a ``PollInline`` which takes advantage of the included ``ModelInline`` class::
 
     from populous import inlines
 
     class PollInline(inlines.ModelInline):
-        name = 'Poll Inline'
+        name = 'poll'
         model = Poll
 
 You would place this code into a file called ``inlines.py`` inside of your ``polls`` directory.  Here is an example of what your application layout might look like::
@@ -104,31 +104,33 @@ Here is a slightly more complex inline than shown above::
     
     from django import forms
     from populous import inlines
+    
+    class ImageWithCaptionInlineForm(inlines.InlineForm):
+        url = forms.URLField()  # URL to image
+        caption = forms.CharField(widget=forms.TextArea())
+        open_in_popup = forms.BooleanField(required=False)
 
     class ImageWithCaptionInline(inlines.Inline):
-        name = 'Image with caption'
-        
-        class AdminForm(inlines.InlineForm):
-            url = forms.URLField()
-            caption = forms.CharField(widget=forms.TextArea())
+        name = 'image with caption'
+        form = ImageWithCaptionInlineForm
 
 
 Installing Inlines
 ==================
 
-Once you have created a new inline and have placed it in a file named ``inlines.py`` within your application's folder you can run ``syncdb`` and your new inline will automatically be installed.  Additionally, there are a few management commands that come with the inlines application, which include:
+Once you have created a new inline and have placed it in a file named ``inlines.py`` within your application's folder, the next time you run ``syncdb`` your new inline will automatically be installed.  Additionally, there are a few management commands that come with the inlines application, which include:
 
 sync
 ----
 
 .. django-admin:: inlines sync <appname appname ...>
 
-Automatically detects and registers all inlines for the given application(s).  If no application name is provided, all installed inlines will be synced.
+Automatically detects and installs all inlines for the given application(s).  If no application name is provided then all inlines in all installed applications will be synced.
 
 reset
 -----
 
 .. django-admin:: inlines reset <appname appname ...>
 
-Removes and syncs all inlines for the given application(s).  If no application name is provided, all installed inlines will be reset and synced.
+Removes and syncs all inlines for the given application(s).  If no application name is provided, all installed inlines in all installed applications will be reset and synced.
  

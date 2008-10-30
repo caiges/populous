@@ -5,4 +5,4 @@ Advertising API
 .. module:: advertising
 
 .. Note::
-    **TODO**: Write this
+    TODO Write this
