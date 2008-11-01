@@ -23,15 +23,22 @@ class RegisteredInline(models.Model):
     
     app_label = models.CharField(max_length=500, editable=False)
     class_name = models.CharField(max_length=500, editable=False)
+    inline_name = models.SlugField(max_length=500, editable=False)
     
     objects = RegisteredInlineManager()
     
     class Meta:
         verbose_name = 'inline'
-        unique_together = (('app_label', 'class_name'),)
+        unique_together = (('app_label', 'class_name', 'inline_name'),)
     
     def __unicode__(self):
         return self.name
+
+    @models.permalink
+    def get_form_url(self):
+        return ('inlines-admin-form', (), {
+            'app_label': self.app_label,
+            'inline_name': self.inline_name})
 
     @property    
     def inline_class(self):

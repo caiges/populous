@@ -22,7 +22,7 @@
 	}
 	
 	#inline-content h1 {
-		background:#FFF url({{ MEDIA_URL }}markitup/skins/simple/images/bg-container.png) repeat-x top left;
+		background:#FFF url({{ MEDIA_URL }}inlines/markitup/skins/simple/images/bg-container.png) repeat-x top left;
 		border-bottom:1px solid #3C769D;
 		color:#000;
 		cursor:pointer;
@@ -47,11 +47,11 @@
 		top:5px; 
 	}
 	.toolbar .close {
-		background:transparent url({{ MEDIA_URL }}markitup/skins/simple/images/close.png) no-repeat top left;
+		background:transparent url({{ MEDIA_URL }}inlines/markitup/skins/simple/images/close.png) no-repeat top left;
 		right:5px;
 	}
 	.toolbar .handle {
-		background:transparent url({{ MEDIA_URL }}markitup/skins/simple/images/move.png) no-repeat top left;
+		background:transparent url({{ MEDIA_URL }}inlines/markitup/skins/simple/images/move.png) no-repeat top left;
 		right:25px;
 		cursor:move;
 	}
@@ -66,7 +66,7 @@
   }
 </style>
 <script type="text/javascript" >
-    var inline_box = $('<div style="display: none" id="inline-inline_box"><div class="toolbar"><a href="#" class="handle">Move</a> <a href="#" class="close">Close</a></div><div id="inline-content"><h1>Inline Modal</h1><p>HI!</p></div></div>');
+    var inline_box = $('<div style="display: none" id="inline-inline_box"><div class="toolbar"><a href="#" class="handle">Move</a> <a href="#" class="close">Close</a></div><div id="inline-content"><h1>Inline Modal</h1><div><p>HI!</p></div></div></div>');
     //var block = $('<div class="block"></div>');
     $(document).ready(function() {
         dragProp = { handle:".handle", zIndex:100, opacity:0.9, scroll:1 };

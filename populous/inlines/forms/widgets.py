@@ -20,6 +20,18 @@ class ForeignKeyRawIdWidget(DefaultForeignKeyRawIdWidget):
 INLINE_TEMPLATE = Template(mark_safe("""{
     name: "{{ inline.name }}",
     className: "{{ inline.class_name }}",
+    replaceWith: function() {
+        var data;
+        $.ajax({
+            async: false,
+            type: "GET",
+            url: "{{ inline.get_form_url }}",
+            success: function(html){
+                data = html;
+            }
+        });
+        return data;
+    }
 }"""))
 
 
@@ -47,12 +59,14 @@ class InlineTextareaWidget(Textarea):
             'inlines/widgets/inline_textarea_%s.html' % name,
             'inlines/widgets/inline_textarea.html'
         ])
+        
+        inline_js = loader.get_template('inlines/parts/inline.js')
         c = Context({
             'MEDIA_URL': settings.MEDIA_URL,
             'name': name,
             'value': value,
             'attrs': attrs,
             'default': super(InlineTextareaWidget, self).render(name, value, attrs),
-            'inlines': mark_safe('[%s]') % ','.join([INLINE_TEMPLATE.render(Context({'inline': inline})) for inline in RegisteredInline.objects.all()])
+            'inlines': mark_safe('[%s]') % ','.join([inline_js.render(Context({'inline': inline})) for inline in RegisteredInline.objects.all()])
         })
         return mark_safe(t.render(c))

@@ -27,7 +27,8 @@ class RegisteredInlineManager(models.Manager):
                 description=force_unicode(getattr(inline, 'description', doc)),
                 author=force_unicode(getattr(inline, 'author', '')),
                 app_label=force_unicode(app_label),
-                class_name=force_unicode(class_name)
+                class_name=force_unicode(class_name),
+                inline_name=force_unicode(inline.name)
             )
             return (obj, True)
 

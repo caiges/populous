@@ -7,6 +7,21 @@ from django.utils.text import capfirst
 
 from populous.inlines.forms import InlineForm, ForeignKeyRawIdWidget
 from populous.inlines.utils import form_from_fields
+
+def build_name(name):
+    names = []
+    out_names = []
+    i = -1
+    for char in name:
+        if char.isupper():
+            i += 1
+            names.append("")
+        names[i] += char.lower()
+    
+    for name_bit in names:
+        if name_bit.find("inline") < 0:
+            out_names.append(name_bit)
+    return "_".join(out_names)
     
 class Inline(object):
     """
@@ -26,7 +41,13 @@ class Inline(object):
         inline_module = sys.modules[inline_class.__module__]
         self.app_label = inline_module.__name__.split('.')[-2]
         
-        self.name = self.name or inline_class.__name__.lower()
+        if not self.name:
+            self.name = build_name(inline_class.__name__)
+        else:
+            self.name = self.name.lower()
+            if self.name.find(" "): #TODO make this better
+                raise ImproperlyConfigured, "Spaces are not allowed in inline names: %s." % self.name
+        
         self.verbose_name = self.verbose_name or get_verbose_name(inline_class.__name__)
         self.verbose_name_plural = self.verbose_name_plural or string_concat(self.verbose_name, 's')
         self.display_group = self.display_group or self.app_label
@@ -35,14 +56,21 @@ class Inline(object):
         """
         Subclasses can override this to provide more customized form options.  In the default
         case, we just want to raise an exception if no form is provided.
+        
+        The form returned will be used to build the inline markup, which looks something like this::
+        
+            <inline type="inline_name" attr1="attribute 1", attr2="attribute 2" />
+        
+        ``inline_name`` is the ``name`` of the inline, and everything else are form field values.
         """
         if self.form is None:
             raise ImproperlyConfigured, 'You must define a form attribute for %s.' % self.__class__.__name__
+        return self.form
     
-    def validate(self, **kwargs):
+    def validate(self, attrs, content):
         pass
     
-    def render(self, **kwargs):
+    def render(self, obj, attrs, content, **kwargs):
         pass
 
 class ModelInline(Inline):
