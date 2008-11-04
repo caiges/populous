@@ -8,26 +8,6 @@ from django.contrib.markup.templatetags.markup import restructuredtext
 from django.template import loader, Context
 from django.conf import settings
 
-INLINE_XML = """
-  <define name="inline">
-    <element name="inline">
-      <attribute name="type">
-        <text/>
-      </attribute>
-      <optional>
-        <attribute name="align">
-          <choice>
-            <value>left</value>
-            <value>right</value>
-            <value>center</value>
-            <value>full</value>
-          </choice>
-        </attribute>
-      </optional>
-    </element>
-  </define>
-"""
-
 def form_from_fields(name, form=forms.Form, fields={}):
     """
     Returns a forms.Form class with a name, `name`, a Form baseclass, `form`, and
@@ -50,6 +30,8 @@ def get_inline_description(inline):
 def get_absolute_schema_path(path):
     """
     Returns the absolute schema path.
+    
+    TODO: This could probably use some cleanup...
     """
     if path[0] == "/":
         # Assume this is an absolute path
@@ -68,34 +50,6 @@ def get_absolute_schema_path(path):
         path_prefix = "%s/schemas/" % project_dir
 
     return "%s%s" % (path_prefix, path)
-
-def open_schema_path(schema_path, mode='r'):
-    """
-    Create the proper directories and such to ensure that our schema can be written
-    to the file without issue.  Of course, if we don't have write permission, then
-    this will yell at you.  If all goes will, it returns a ``file`` object.
-    """
-    #TODO: This really is crap...
-    dirs = schema_path.rsplit('/', 1)[0]
-    try:
-        os.makedirs(dirs)
-    except:
-        pass
-    return open(schema_path, mode)
-
-def build_schema(base_schema):
-    """
-    Returns a new RelaxNG schema from the supplied ``base_schema`` which has
-    been modified to include the necessary inlines references.
-    """
-    from populous.inlines.models import RegisteredInline
-    #TODO: This could be more flexible
-    dom = minidom.parse(base_schema)
-    t = loader.get_template('inlines/schemas/default_schema.rng')
-    c = Context({
-      'inline_list':  RegisteredInline.objects.all()
-    })
-    return t.render(c)
 
 class Schema(object):
     """
