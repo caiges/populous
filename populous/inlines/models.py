@@ -4,6 +4,7 @@ from django.contrib.sites.models import Site
 from django.template.defaultfilters import capfirst
 
 from populous.inlines.managers import RegisteredInlineManager, RegisteredInlineFieldManager
+from populous.inlines.utils import get_absolute_schema_path
 
 
 class RecurringInline(models.Model):
@@ -48,13 +49,16 @@ class RegisteredInline(models.Model):
             mod = __import__(mod_name, fromlist=[mod_name])
             setattr(self, '_inline_class', getattr(mod, self.class_name))
         return getattr(self, '_inline_class')
+    
+    def get_form(self):
+        return self.inline_class().form()
         
     
 class RegisteredInlineField(models.Model):
-    
     app_label = models.CharField(max_length=500, editable=False)
     model_name = models.CharField(max_length=500, editable=False)
     field_name = models.CharField(max_length=500, editable=False)
+    schema_path = models.CharField(max_length=800, editable=False)
     
     objects = RegisteredInlineFieldManager()
     
@@ -64,6 +68,9 @@ class RegisteredInlineField(models.Model):
     
     def __unicode__(self):
         return u"%s.%s" % (capfirst(self.model_name), self.field_name)
+    
+    def get_absolute_schema_path(self):
+        return get_absolute_schema_path(self.schema_path)
     
 
 class AllowedField(models.Model):

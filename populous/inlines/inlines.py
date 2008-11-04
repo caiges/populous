@@ -24,7 +24,7 @@ class TextInline(Inline):
 
 
 class TemplateInlineForm(InlineForm):
-    template = forms.CharField(label=_("Template"), required=False)
+    template = forms.CharField(label=_("Template"))
         
 class TemplateInline(Inline):
     """

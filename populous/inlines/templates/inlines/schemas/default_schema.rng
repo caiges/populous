@@ -1,9 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<grammar xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
-  <!--
-    RELAX NG compact syntax pattern for news content markup language.
-    See http://www.relaxng.org/
-  -->
+{% extends "inlines/schemas/base.rng" %}
+{% block content %}
   <start>
     <ref name="content"/>
   </start>
@@ -207,152 +203,23 @@
       </zeroOrMore>
     </element>
   </define>
+  
+  {% block inlines %}
+  <!-- Automatically generated inlines -->
   <define name="inline">
     <element name="inline">
-      <attribute name="align">
-        <choice>
-          <value>left</value>
-          <value>right</value>
-          <value>center</value>
-          <value>full</value>
-        </choice>
-      </attribute>
-      <choice>
-        <attribute name="type">
-          <choice>
-            <value>audiointerviews</value>
-            <value>ad-kansan</value>
-            <value>ad-palmer</value>
-          </choice>
-        </attribute>
+      <choice>{% for inline in inline_list %}
         <group>
           <attribute name="type">
-            <choice>
-              <value>eventtime</value>
-              <value>recurringeventtime</value>
-              <value>movie</value>
-              <value>video</value>
-              <value>photogallery</value>
-              <value>place-map</value>
-              <value>poll</value>
-              <value>recurring-inline</value>
-              <value>sports</value>
-            </choice>
-          </attribute>
-          <attribute name="id">
-            <data type="string">
-              <param name="pattern">\d+</param>
-            </data>
-          </attribute>
-        </group>
-        <group>
-          <attribute name="type">
-            <choice>
-              <value>album-mp3s</value>
-              <value>bandmp3s</value>
-            </choice>
-          </attribute>
-          <attribute name="id">
-            <data type="string">
-              <param name="pattern">\d+</param>
-            </data>
-          </attribute>
-          <optional>
-            <attribute name="moremessage"/>
-          </optional>
-        </group>
-        <group>
-          <attribute name="type">
-            <value>bandevents</value>
-          </attribute>
-          <attribute name="id">
-            <data type="string">
-              <param name="pattern">\d+</param>
-            </data>
-          </attribute>
-          <attribute name="startdate">
-            <data type="string">
-              <param name="pattern">\d\d\d\d-\d\d-\d\d</param>
-            </data>
-          </attribute>
-          <attribute name="enddate">
-            <data type="string">
-              <param name="pattern">\d\d\d\d-\d\d-\d\d</param>
-            </data>
-          </attribute>
-        </group>
-        <group>
-          <attribute name="type">
-            <choice>
-              <value>photo</value>
-              <value>photothumb</value>
-              <value>illustration</value>
-              <value>graphic</value>
-            </choice>
-          </attribute>
-          <attribute name="id">
-            <data type="string">
-              <param name="pattern">\d+</param>
-            </data>
-          </attribute>
-          <optional>
-            <attribute name="displaycaption">
-              <choice>
-                <value>0</value>
-                <value>1</value>
-              </choice>
-            </attribute>
-          </optional>
-        </group>
-        <group>
-          <attribute name="type">
-            <value>text</value>
-          </attribute>
-          <optional>
-            <attribute name="title"/>
-          </optional>
-          <optional>
-            <attribute name="template"/>
-          </optional>
-          <zeroOrMore>
-            <choice>
-              <ref name="blockhtml"/>
-              <ref name="img"/>
-            </choice>
-          </zeroOrMore>
-        </group>
-        <group>
-          <attribute name="type">
-            <choice>
-              <value>text-more</value>
-              <value>text-mp3</value>
-              <value>text-qa</value>
-              <value>text-show</value>
-              <value>text-video</value>
-            </choice>
-          </attribute>
-          <optional>
-            <attribute name="title"/>
-          </optional>
-          <zeroOrMore>
-            <choice>
-              <ref name="blockhtml"/>
-              <ref name="a"/>
-              <ref name="img"/>
-            </choice>
-          </zeroOrMore>
-        </group>
-        <group>
-          <attribute name="type">
-            <value>longlatmap</value>
-          </attribute>
-          <attribute name="longitude"/>
-          <attribute name="latitude"/>
-          <optional>
-            <attribute name="label"/>
-          </optional>
-        </group>
+            <value>{{ inline.inline_name }}</value>
+          </attribute>{% for name, field in inline.get_form.fields.items %}{% if not field.required %}
+          <optional>{% endif %}
+            <attribute name="{{ name }}" />{% if not field.required %}
+          </optional>{% endif %}{% endfor %}
+        </group>{% endfor %}
       </choice>
     </element>
   </define>
-</grammar>
+  {% endblock %}
+
+{% endblock %}

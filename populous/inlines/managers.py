@@ -34,7 +34,9 @@ class RegisteredInlineManager(models.Manager):
 
 class RegisteredInlineFieldManager(models.Manager):
     def create_from_field(self, model_class, field):
-        app_label=model_class._meta.app_label
-        model_name=model_class._meta.module_name
-        field_name=field.name
-        return self.get_or_create(app_label=app_label, model_name=model_name, field_name=field_name)
+        app_label = model_class._meta.app_label
+        model_name = model_class._meta.module_name
+        field_name = field.name
+        schema_path = field.schema_path
+        return self.get_or_create(app_label=app_label, model_name=model_name, 
+                                    field_name=field_name, schema_path=schema_path)

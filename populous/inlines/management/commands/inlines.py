@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand, CommandError
 from populous.inlines.base import Inline
 from populous.inlines.fields import InlineField
 from populous.inlines.models import RegisteredInline, RegisteredInlineField
+from populous.inlines.utils import Schema
 
 from optparse import make_option
 
@@ -32,9 +33,6 @@ class Command(BaseCommand):
             elif command == "reset":
                 self.reset(app_list)
     
-    def reset(self, app_list):
-        pass
-    
     def imp_inline_mod(self, app_name):
         """
         This will return the inlines module for a given app.
@@ -47,12 +45,17 @@ class Command(BaseCommand):
         for comp in components[1:]:
             mod = getattr(mod, comp)
         return mod
+
+    def reset(self, app_list):
+        #TODO: Write this
+        pass
     
     def sync(self, app_list):
         from django.db.models import get_models, get_app
-                        
+        
+        # Look for an create RegisteredInline objects for all Inline sublasses
+        # found in all installed applications
         for app in app_list:
-            #app = get_app(app_name.split('.')[-1])
             app_name = app.__name__.rsplit('.', 1)[0]
             try:
                 mod = self.imp_inline_mod(app_name)
@@ -73,7 +76,8 @@ class Command(BaseCommand):
                 # This app doesn't have any inlines
                 if self.verbose:
                     print "App `%s` doesn't have any inlines" % app_name
-        
+            
+            # Create RegisteredInlineField objects for all InlineField instances
             for model in get_models(app):
                 for field in model._meta.fields:
                     if isinstance(field, InlineField):
@@ -84,3 +88,13 @@ class Command(BaseCommand):
                                 print "\tField already exists; skipping addition."
                             else:
                                 print "\tField doesn't exist yet; adding it."
+            
+            #TODO: Generate all schemas
+            for field in RegisteredInlineField.objects.all():
+                if self.verbose:
+                    print "Writing schema for %s.%s" % (field.app_label, field.field_name)
+                
+                output_schema = "%s_%s_%s.rng" % (field.app_label, field.model_name, field.field_name)
+                schema = Schema(field.schema_path, output_schema)
+                schema.write()
+                

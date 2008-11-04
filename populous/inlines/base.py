@@ -31,7 +31,7 @@ class Inline(object):
     verbose_name = None
     verbose_name_plural = None  # Calculated automatically
     display_group = None        # A string which denotes how to group this inline with other inlines.  Defaults to app_label
-    form = None                 # The Form class which can be used to create a valid inline instance
+    form = None                 # The InlineForm class which can be used to create a valid inline instance
     default_template = None     # The default template used when render() is called on this inline's instance
     app_label = None            # Conputed automatically based on location in codebase (same method as Django uses for models)
     name = None                 # This must be unique per app
@@ -51,26 +51,14 @@ class Inline(object):
         self.verbose_name = self.verbose_name or get_verbose_name(inline_class.__name__)
         self.verbose_name_plural = self.verbose_name_plural or string_concat(self.verbose_name, 's')
         self.display_group = self.display_group or self.app_label
-    
-    def get_form(self, request, content_type, field, obj_id=None):
-        """
-        Subclasses can override this to provide more customized form options.  In the default
-        case, we just want to raise an exception if no form is provided.
         
-        The form returned will be used to build the inline markup, which looks something like this::
-        
-            <inline type="inline_name" attr1="attribute 1", attr2="attribute 2" />
-        
-        ``inline_name`` is the ``name`` of the inline, and everything else are form field values.
-        """
         if self.form is None:
             raise ImproperlyConfigured, 'You must define a form attribute for %s.' % self.__class__.__name__
-        return self.form
     
     def validate(self, attrs, content):
         pass
     
-    def render(self, obj, attrs, content, **kwargs):
+    def render(self, request, obj, attrs, content, **kwargs):
         pass
 
 class ModelInline(Inline):
@@ -86,30 +74,32 @@ class ModelInline(Inline):
     def __init__(self):
         from django.db.models import get_model
         self.model = self.model or get_model(self.app_label, self.model)
+        if self.form is None:
+           self.form = self._create_form()
         super(ModelInline, self).__init__()
     
-    def get_form(self, request, content_type, field, obj_id=None):
+    def _create_form(self):
         """
-        Custom method override which creates a sane default form.
+        Returns a subclass of ``InlineForm`` that is bound to a model
+        specified by ``self.model``.
         """
-        if self.form is None:
-            defaults = {'label': capfirst(self.model._meta.verbose_name)}
-            if self.raw_id_admin:
-                formfield = forms.CharField
-                if self.limit_choices_to is None:
-                    defaults['widget'] = ForeignKeyRawIdWidget(self.model)
-                else:
-                    defaults['widget'] = ForeignKetRawIdWidget(self.model, self.limit_choices_to)
+        defaults = {'label': capfirst(self.model._meta.verbose_name)}
+        if self.raw_id_admin:
+            formfield = forms.CharField
+            if self.limit_choices_to is None:
+                defaults['widget'] = ForeignKeyRawIdWidget(self.model)
             else:
-                formfield = forms.ModelChoiceField
-                if self.limit_choices_to is None:
-                    # limit_choices_to is not defined, so get all objects
-                    defaults['queryset'] = self.model._default_manager.all()
-                else:
-                    defaults['queryset'] = self.model._default_manager.complex_filter(self.limit_choices_to)
-            self.form = form_from_fields(self.model.__name__ + 'InlineModelForm', InlineForm,
-                                                                    {self.model.__name__.lower(): formfield(**defaults)})
+                defaults['widget'] = ForeignKetRawIdWidget(self.model, self.limit_choices_to)
+        else:
+            formfield = forms.ModelChoiceField
+            if self.limit_choices_to is None:
+                # limit_choices_to is not defined, so get all objects
+                defaults['queryset'] = self.model._default_manager.all()
+            else:
+                defaults['queryset'] = self.model._default_manager.complex_filter(self.limit_choices_to)
+        return form_from_fields(self.model.__name__ + 'InlineModelForm', InlineForm,
+                                                                {self.model.__name__.lower(): formfield(**defaults)})
     
-    def render(self):
+    def render(self, request, obj, attrs, content, **kwargs):
         # TODO: write this
         pass

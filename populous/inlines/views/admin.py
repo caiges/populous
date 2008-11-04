@@ -8,5 +8,5 @@ def form(request, app_label, inline_name):
     #    inline = None
     
     if inline is not None:
-        form = inline.inline_class().get_form(request, None, None)
+        form = inline.inline_class().form
         return HttpResponse(form().render(request))
