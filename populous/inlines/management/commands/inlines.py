@@ -89,7 +89,7 @@ class Command(BaseCommand):
                             else:
                                 print "\tField doesn't exist yet; adding it."
             
-            #TODO: Generate all schemas
+            # Generate all schemas
             for field in RegisteredInlineField.objects.all():
                 if self.verbose:
                     print "Writing schema for %s.%s" % (field.app_label, field.field_name)
