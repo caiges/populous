@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
@@ -181,6 +180,8 @@ class Subscription(models.Model):
             except cls.DoesNotExist:
                 break
         return code
+    _get_random_confirmation_code_email = classmethod(_get_random_confirmation_code_email)
+
     
     def _get_random_confirmation_code_sms(cls):
         "Generates and returns a random 6-character string that's not in use."
@@ -192,9 +193,4 @@ class Subscription(models.Model):
             except cls.DoesNotExist:
                 break
         return code
-    
-    _get_random_confirmation_code_email = classmethod(_get_random_confirmation_code_email)
     _get_random_confirmation_code_sms = classmethod(_get_random_confirmation_code_sms)
-
-admin.site.register(Alert)
-admin.site.register(Subscription)
