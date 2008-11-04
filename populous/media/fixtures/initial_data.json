@@ -1,0 +1,84 @@
+[
+    {
+        "pk": "1",
+        "model": "media.basefiletype",
+        "fields": {
+            "name": "QuickTime",
+            "mime_type": "video/quicktime",
+            "content_type": "video"
+        }
+    }, {
+        "pk": "2",
+        "model": "media.basefiletype",
+        "fields": {
+            "name": "PSP",
+            "mime_type": "video/mp4",
+            "content_type": "video"
+        }
+    }, {
+        "pk": "3",
+        "model": "media.basefiletype",
+        "fields": {
+            "name": "iPod",
+            "mime_type": "video/mp4",
+            "content_type": "video"
+        }
+    }, {
+        "pk": "4",
+        "model": "media.basefiletype",
+        "fields": {
+            "name": "3GP",
+            "mime_type": "video/3gpp",
+            "content_type": "video"
+        }
+    }, {
+        "pk": "5",
+        "model": "media.basefiletype",
+        "fields": {
+            "name": "Flash",
+            "mime_type": "application/x-shockwave-flash",
+            "content_type": "video"
+        }
+    }, {
+        "pk": "6",
+        "model": "media.basefiletype",
+        "fields": {
+            "name": "h264",
+            "mime_type": "video/H264",
+            "content_type": "video"
+        }
+    }, {
+        "pk": "7",
+        "model": "media.basefiletype",
+        "fields": {
+            "name": "MP3",
+            "mime_type": "audio/mpeg",
+            "content_type": "audio"
+        }
+    }, {
+        "pk": "8",
+        "model": "media.basefiletype",
+        "fields": {
+            "name": "Flash",
+            "mime_type": "application/x-shockwave-flash",
+            "content_type": "audio"
+        }
+    }, {
+        "pk": "9",
+        "model": "media.basefiletype",
+        "fields": {
+            "name": "PDF",
+            "mime_type": "application/pd",
+            "content_type": "document"
+            
+        }
+    }, {
+        "pk": "10",
+        "model": "media.basefiletype",
+        "fields": {
+            "name": "Flash Object",
+            "mime_type": "application/x-shockwave-flash",
+            "content_type": "file"
+        }
+    }
+]

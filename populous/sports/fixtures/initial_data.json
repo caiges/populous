@@ -1,0 +1,66 @@
+[
+    {
+        "pk": "1", 
+        "model": "sports.sport", 
+        "fields": {
+            "name": "Football", 
+            "slug": "football"
+        }
+    }, 
+    {
+        "pk": "2", 
+        "model": "sports.sport", 
+        "fields": {
+            "name": "Basketball", 
+            "slug": "basketball"
+        }
+    }, 
+    {
+        "pk": "3", 
+        "model": "sports.sport", 
+        "fields": {
+            "name": "Water Polo", 
+            "slug": "water_polo"
+        }
+    }, 
+    {
+        "pk": "4", 
+        "model": "sports.sport", 
+        "fields": {
+            "name": "Tennis", 
+            "slug": "tennis"
+        }
+    }, 
+    {
+        "pk": "5", 
+        "model": "sports.sport", 
+        "fields": {
+            "name": "Softball", 
+            "slug": "softball"
+        }
+    }, 
+    {
+        "pk": "6", 
+        "model": "sports.sport", 
+        "fields": {
+            "name": "Baseball", 
+            "slug": "baseball"
+        }
+    }, 
+    {
+        "pk": "7", 
+        "model": "sports.sport", 
+        "fields": {
+            "name": "Volleyball", 
+            "slug": "volleyball"
+        }
+    }, 
+    {
+        "pk": "8", 
+        "model": "sports.sport", 
+        "fields": {
+            "name": "Gymnastics", 
+            "slug": "gymnastics"
+        }
+    }
+]

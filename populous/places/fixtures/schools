@@ -1,0 +1,408 @@
+{
+        "pk": "7", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "Arizona State University", 
+            "abbreviation": "ASU", 
+            "logo": "img\/sports\/logos\/ASU.jpg", 
+            "mascot_plural": "Sun Devils", 
+            "slug": "arizona_state_university", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "33", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "Ball State University", 
+            "abbreviation": "Ball State", 
+            "logo": "img\/sports\/logos\/Ball_State.jpg", 
+            "mascot_plural": "Cardinals", 
+            "slug": "ball_state_university", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "4", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "Baylor University", 
+            "abbreviation": "Baylor", 
+            "logo": "", 
+            "mascot_plural": "Bears", 
+            "slug": "baylor_university", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "27", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "Cal State University Long Beach", 
+            "abbreviation": "Long Beach State", 
+            "logo": "img\/sports\/logos\/longbeachstate.jpg", 
+            "mascot_plural": "49ers", 
+            "slug": "cal_state_university_long_beach", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "26", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "Cal State University Long Beach Baseball", 
+            "abbreviation": "Long Beach State", 
+            "logo": "img\/sports\/logos\/csulb__.jpg", 
+            "mascot_plural": "Dirtbags", 
+            "slug": "long_beach_state", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "32", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "Cal State University, San Diego", 
+            "abbreviation": "San Diego State", 
+            "logo": "img\/sports\/logos\/SDSU.jpg", 
+            "mascot_plural": "Aztecs", 
+            "slug": "cal_state_university_san_diego", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "8", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "Colorado State University", 
+            "abbreviation": "Colorado State", 
+            "logo": "", 
+            "mascot_plural": "", 
+            "slug": "colorado_state_university", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "9", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "East Carolina University", 
+            "abbreviation": "East Carolina", 
+            "logo": "img\/sports\/logos\/EastCarolina.jpg", 
+            "mascot_plural": "Pirates", 
+            "slug": "east_carolina_university", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "34", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "Indiana University ", 
+            "abbreviation": "Indiana", 
+            "logo": "img\/sports\/logos\/indiana.jpg", 
+            "mascot_plural": "Hoosiers", 
+            "slug": "indiana_university", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "25", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "Loyola Marymount University", 
+            "abbreviation": "LMU", 
+            "logo": "img\/sports\/logos\/lmu.jpg", 
+            "mascot_plural": "Lions", 
+            "slug": "loyola_marymount_university", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "10", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "Ohio State University", 
+            "abbreviation": "Ohio State", 
+            "logo": "", 
+            "mascot_plural": "Buckeyes", 
+            "slug": "ohio_state_university", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "11", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "Oklahoma State University", 
+            "abbreviation": "Oklahoma State", 
+            "logo": "", 
+            "mascot_plural": "", 
+            "slug": "oklahoma_state_university", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "31", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "Ole Miss", 
+            "abbreviation": "", 
+            "logo": "", 
+            "mascot_plural": "", 
+            "slug": "ole_miss", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "2", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "Oregon State University", 
+            "abbreviation": "OSU", 
+            "logo": "img\/sports\/logos\/OSU_new.tif", 
+            "mascot_plural": "Beavers", 
+            "slug": "oregon_state_university", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "12", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "Stanford University", 
+            "abbreviation": "Stanford", 
+            "logo": "img\/sports\/logos\/stanford.jpg", 
+            "mascot_plural": "Cardinal", 
+            "slug": "stanford_university", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "30", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "University of Alabama", 
+            "abbreviation": "Alabama", 
+            "logo": "", 
+            "mascot_plural": "", 
+            "slug": "university_alabama", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "13", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "University of Arizona", 
+            "abbreviation": "Arizona", 
+            "logo": "img\/sports\/logos\/Arizona.jpg", 
+            "mascot_plural": "Wildcats", 
+            "slug": "university_arizona", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "29", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "University of California - San Diego", 
+            "abbreviation": "UCSD", 
+            "logo": "img\/sports\/logos\/ucsd.jpg", 
+            "mascot_plural": "Tritons", 
+            "slug": "university_california_san_diego", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "14", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "University of California, Berkeley", 
+            "abbreviation": "Cal", 
+            "logo": "img\/sports\/logos\/Cal.jpg", 
+            "mascot_plural": "Bears", 
+            "slug": "university_california_berkeley", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "15", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "University of California, Irvine", 
+            "abbreviation": "UC Irvine", 
+            "logo": "img\/sports\/logos\/UCI.jpg", 
+            "mascot_plural": "Anteaters", 
+            "slug": "uc_irvine", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "1", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "University of California, Los Angeles", 
+            "abbreviation": "UCLA", 
+            "logo": "img\/sports\/logos\/bruin_trans.gif", 
+            "mascot_plural": "Bruins", 
+            "slug": "university_california_los_angeles", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "5", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "University of California, Riverside", 
+            "abbreviation": "UC Riverside", 
+            "logo": "img\/sports\/logos\/UCRiverside.jpg", 
+            "mascot_plural": "Highlanders", 
+            "slug": "university_california_riverside", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "6", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "University of California, Santa Barbara", 
+            "abbreviation": "UCSB", 
+            "logo": "img\/sports\/logos\/UCSBmascot_.jpg", 
+            "mascot_plural": "Gauchos", 
+            "slug": "university_california_santa_barbara", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "16", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "University of Central Florida", 
+            "abbreviation": "UCF", 
+            "logo": "", 
+            "mascot_plural": "", 
+            "slug": "university_central_florida", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "24", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "University of Hawai'i - Women", 
+            "abbreviation": "Hawai'i", 
+            "logo": "img\/sports\/logos\/Hawaii.jpg", 
+            "mascot_plural": "Rainbow Wahine", 
+            "slug": "university_hawaii_women", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "17", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "University of Illinois", 
+            "abbreviation": "Illinois", 
+            "logo": "", 
+            "mascot_plural": "", 
+            "slug": "university_illinois", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "18", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "University of Miami", 
+            "abbreviation": "Miami", 
+            "logo": "", 
+            "mascot_plural": "", 
+            "slug": "university_miami", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "19", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "University of Nevada, Las Vegas", 
+            "abbreviation": "UNLV", 
+            "logo": "", 
+            "mascot_plural": "Rebels", 
+            "slug": "university_nevada_las_vegas", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "20", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "University of Oregon", 
+            "abbreviation": "Oregon", 
+            "logo": "img\/sports\/logos\/oregon.jpg", 
+            "mascot_plural": "Ducks", 
+            "slug": "university_oregon", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "3", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "University of Southern California", 
+            "abbreviation": "USC", 
+            "logo": "img\/sports\/logos\/usc_logo.jpg", 
+            "mascot_plural": "Trojans", 
+            "slug": "university_southern_california", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "21", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "University of Washington", 
+            "abbreviation": "Washington", 
+            "logo": "img\/sports\/logos\/Washington.jpg", 
+            "mascot_plural": "Huskies", 
+            "slug": "university_washington", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "22", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "University of the Pacific", 
+            "abbreviation": "Pacific", 
+            "logo": "", 
+            "mascot_plural": "", 
+            "slug": "university_pacific", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "28", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "Washington State University", 
+            "abbreviation": "Washington State", 
+            "logo": "img\/sports\/logos\/WSU.jpg", 
+            "mascot_plural": "Cougars", 
+            "slug": "washington_state_university", 
+            "mascot": null
+        }
+    }, 
+    {
+        "pk": "23", 
+        "model": "sports.school", 
+        "fields": {
+            "name": "Wright State University", 
+            "abbreviation": "Wright State", 
+            "logo": "", 
+            "mascot_plural": "", 
+            "slug": "wright_state_university", 
+            "mascot": null
+        }
+    }, 
