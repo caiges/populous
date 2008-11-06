@@ -6,7 +6,7 @@ from subprocess import Popen, PIPE
 
 from PIL import Image, ImageFilter
 
-from populous..thumbnail import defaults
+from populous.thumbnail import defaults
 from populous.thumbnail.processors import get_valid_options, dynamic_import
 
 
