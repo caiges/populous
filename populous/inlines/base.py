@@ -72,17 +72,24 @@ class Inline(object):
     app_label = None            # Conputed automatically based on location in codebase (same method as Django uses for models)
     name = None                 # This must be unique per app
     
-    def __init__(self):
-        pass
+    def __init__(self, data=None, content=None):
+        self.is_bound = data is not None
+        self.data = data or {}
+        self.content = None
+        self._errors = None
     
-    
-    def validate(self, attrs, content):
+    def validate(self):
         """
-        
+        This should raise a ValidationError if ``data`` doesn't
+        pass validation.  What is valid and what isn't it left
+        for you to decide.
         """
         return True
     
-    def render(self, request, obj, attrs, content, **kwargs):
+    def render(self, request, obj, content, **kwargs):
+        """
+        TODO: I haven't figured out exactly how I want this to work yet....
+        """
         pass
 
 
@@ -136,7 +143,3 @@ class ModelInline(Inline):
     raw_id_admin = True         # If True then the auto generated AdminForm will use a special widget
     limit_choices_to = None     # Works just like in Django's model decumentation
     model = None                # Model class or string
-    
-    def render(self, request, obj, attrs, content, **kwargs):
-        # TODO: write this
-        pass
