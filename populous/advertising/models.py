@@ -1,6 +1,5 @@
 from django.db import models
-from django.contrib import admin
-from django.core import validators
+from django.core import exceptions
 from django.template.loader import get_template
 from django.utils.translation import gettext_lazy as _
 
@@ -218,7 +217,7 @@ class Statistic(models.Model):
 def isExpiredAdvertisement(field_data, all_data):
     "A very simple validator that checks an ``Advertisement``\s ``is_expired`` field."
     if field_data:
-        raise validators.ValidationError(_("This ad has expired.  To <strong>rerun</strong> this ad click 'save as new' above."))
+        raise exceptions.ValidationError(_("This ad has expired.  To <strong>rerun</strong> this ad click 'save as new' above."))
 
 
 #####################
