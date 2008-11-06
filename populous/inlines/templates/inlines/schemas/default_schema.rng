@@ -212,7 +212,7 @@
         <group>
           <attribute name="type">
             <value>{{ inline.inline_name }}</value>
-          </attribute>{% for name, field in inline.get_form.fields.items %}{% if not field.required %}
+          </attribute>{% for name, field in inline.get_form.base_fields.items %}{% if not field.required %}
           <optional>{% endif %}
             <attribute name="{{ name }}" />{% if not field.required %}
           </optional>{% endif %}{% endfor %}

@@ -51,7 +51,7 @@ class RegisteredInline(models.Model):
         return getattr(self, '_inline_class')
     
     def get_form(self):
-        return self.inline_class().form()
+        return self.inline_class.form
         
     
 class RegisteredInlineField(models.Model):

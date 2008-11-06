@@ -1,3 +1,5 @@
+from populous.inlines.models import RegisteredInline
+
 from xml.dom import minidom
 
 try:
@@ -5,7 +7,21 @@ try:
 except ImportError:
     from StringIO import StringIO
 
-class InlineValidator(object):
+
+class InlineDict(dict):
+    """
+    A simple ``dict`` subclass that converts a ``xml.dom.minidom`` element's
+    attributes into a normal ``dict``.
+    """
+    def __init__(self, inline_dom, *args, **kwargs):
+        self.inline_dom = inline_dom
+        self._process_inlines()
+    
+    def _process_inlines(self):
+        for attr, val in self.inline_dom.attributes.items():
+            self[attr] = val
+
+class InlinesValidator(object):
     """
     Parses a string of XML data and validates all inline elements of the form::
     
@@ -28,7 +44,7 @@ class InlineValidator(object):
         before calling this.
         """
         dom = minidom.parse(StringIO(self.data))
-        return dom.getElementsByTagName("inline")
+        return [InlineDict(i) for i in dom.getElementsByTagName("inline")]
     
     def validate(self):
         for inline in self.inlines:
