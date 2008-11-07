@@ -1,11 +1,13 @@
 from lxml import etree
+from django.utils.safestring import mark_safe
 from populous.inlines.utils import get_inline
+
 
 data = """
 <content>
   <h3>Some Header</h3>
   <p>Body text...blah blah blah...</p>
-  <inline type="inlines.template" template="template.html" />
+  <inline type="inlines.TemplateInline" template="template.html" />
 </content>
 """
 
@@ -17,7 +19,10 @@ class XMLToXHTMLParser(object):
     
     TODO: Figure out the best way to support this...
     """
-    def __init__(self):
+    def __init__(self, request, obj, field):
+        self.request = request
+        self.obj = obj
+        self.field = field
         self.output = []
     
     def start(self, tag, attrs):
@@ -43,4 +48,9 @@ class XMLToXHTMLParser(object):
     def close(self):
         return self.output
 
-parser = etree.XMLParser(target=XMLToXHTMLParser())
+def xml_to_xhtml(data, request, obj, field):
+    # TODO: The field should be used to lookup the proper parser
+    # for now we'll just use the default XMLToXHTMLParser
+    parser = etree.XMLParser(target=XMLToXHTMLParser(request, obj, field))
+    result = etree.XML(data, parser)
+    return mark_safe("".join(result))
