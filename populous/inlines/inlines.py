@@ -4,6 +4,7 @@ Default included Inline subclasses.
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.template import loader, RequestContext
 from populous.inlines.base import Inline
 from populous.inlines.forms import InlineForm
 
@@ -17,10 +18,21 @@ class TextInline(Inline):
     """
     A simple inline that stores text.  A custom form can be defined as well. 
     """
-    default_template = 'inlines/textinline.html'
     verbose_name = _('text box')
     verbose_name_plural = _('text boxes')
     form = TextInlineForm
+
+    def render(self, request, obj, field):
+        app_label, module_name = obj._meta.app_label, obj._meta.module_name
+        t = loader.select_template([
+            self.data.get('template'),
+            "inlines/textinline/%s/%s_%s_%s.html" % (app_label, module_name, field.name, obj.pk),
+            "inlines/textinline/%s/%s_%s.html" % (app_label, module_name, field.name),
+            "inlines/textinline/%s/%s_%s.html" % (app_label, module_name),
+            "inlines/textinline/default.html"
+        ])
+        c = RequestContext(request, {'inline': self})
+        return t.render(c)
 
 
 class TemplateInlineForm(InlineForm):

@@ -87,11 +87,11 @@ class Inline(object):
         """
         return True
     
-    def render(self, request, obj, content, **kwargs):
+    def render(self, request, obj, field):
         """
-        TODO: I haven't figured out exactly how I want this to work yet....
+        This is up to you to implement.
         """
-        pass
+        raise NotImplementedError
 
 
 class ModelInlineMetaclass(InlineMetaclass):
@@ -136,7 +136,7 @@ class ModelInlineMetaclass(InlineMetaclass):
 class ModelInline(Inline):
     """
     A base class for inlines that display a Django model.  Subclasses should
-    define at least one attribute, `model`, which should be a valid Django
+    define at least one attribute, ``model``, which should be a valid Django
     model (not an instance).
     """
     __metaclass__ = ModelInlineMetaclass
