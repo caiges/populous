@@ -11,11 +11,11 @@ class RegisteredInlineManager(models.Manager):
         ``RegisteredInline`` model.
         """
         reged_inline = self.get(*args, **kwargs)
-        return reged_inline.get_inline()
+        return reged_inline.inline_class
         
     def create_from_inline(self, inline):
         app_label = inline.app_label
-        class_name = inline.__class__.__name__
+        class_name = inline.__name__
         
         try:
             obj = self.get(app_label=app_label, class_name=class_name)
@@ -28,7 +28,7 @@ class RegisteredInlineManager(models.Manager):
                 author=force_unicode(getattr(inline, 'author', '')),
                 app_label=force_unicode(app_label),
                 class_name=force_unicode(class_name),
-                inline_name=force_unicode(inline.name)
+                #inline_name=force_unicode(inline.name)
             )
             return (obj, True)
 

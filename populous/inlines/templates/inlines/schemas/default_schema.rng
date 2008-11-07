@@ -211,7 +211,7 @@
       <choice>{% for inline in inline_list %}
         <group>
           <attribute name="type">
-            <value>{{ inline.inline_name }}</value>
+            <value>{{ inline.app_label }}.{{ inline.class_name }}</value>
           </attribute>{% for name, field in inline.get_form.base_fields.items %}{% if not field.required %}
           <optional>{% endif %}
             <attribute name="{{ name }}" />{% if not field.required %}

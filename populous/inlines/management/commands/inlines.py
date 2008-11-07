@@ -63,8 +63,8 @@ class Command(BaseCommand):
                     item = getattr(mod, item)
                     if mod.__name__ == getattr(item, '__module__', '') and issubclass(item, Inline):
                         # This is a subclass of Inline, so add it to the cache
-                        inline = item()                            
-                        reged_inline, created = RegisteredInline.objects.create_from_inline(inline)
+                        #inline = item()                            
+                        reged_inline, created = RegisteredInline.objects.create_from_inline(item)
                         
                         if self.verbose:
                             print "Found Inline subclass, `%s`, in `%s`" % (item.__name__, mod.__name__)

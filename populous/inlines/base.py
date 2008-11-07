@@ -38,14 +38,15 @@ class InlineMetaclass(type):
             inline_module = sys.modules[cls.__module__]
             new_class.app_label = inline_module.__name__.split('.')[-2]
             for base in bases[::-1]:
-                if not new_class.name:
-                    new_class.name = build_name(new_class.__name__)
-                else:
-                    new_class.name = new_class.name.lower()
-                    if new_class.name.find(" "): #TODO make this better
-                        raise ImproperlyConfigured, "Spaces are not allowed in inline names: %s." % new_class.name
+                #if not new_class.name:
+                    #new_class.name = build_name(new_class.__name__)
+                    #new_class.name = new_class.__name__
+                #else:
+                #    new_class.name = new_class.name.lower()
+                #    if new_class.name.find(" "): #TODO make this better
+                #        raise ImproperlyConfigured, "Spaces are not allowed in inline names: %s." % new_class.name
                             
-                new_class.verbose_name = getattr(base, 'verbose_name', None) or new_class.name
+                new_class.verbose_name = getattr(base, 'verbose_name', None) or build_name(new_class.__name__)
                 new_class.verbose_name_plural = getattr(base, 'verbose_name_plural', None) or \
                                                 string_concat(new_class.verbose_name, 's')
                 new_class.display_group = getattr(base, 'display_group', None) or getattr(base, 'app_label', None)
@@ -70,7 +71,7 @@ class Inline(object):
     form = None                 # The InlineForm class which can be used to create a valid inline instance
     default_template = None     # The default template used when render() is called on this inline's instance
     app_label = None            # Conputed automatically based on location in codebase (same method as Django uses for models)
-    name = None                 # This must be unique per app
+    #name = None                 # This must be unique per app
     
     def __init__(self, data=None, content=None):
         self.is_bound = data is not None

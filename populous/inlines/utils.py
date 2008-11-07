@@ -15,6 +15,26 @@ def form_from_fields(name, form=forms.Form, fields={}):
     """
     return DeclarativeFieldsMetaclass(name, (form,), fields)
 
+def imp_inline_mod(app_name):
+    """
+    This will return the inlines module for a given app.
+    For example, if ``app_name`` is `populous.inlines',
+    then this will attempt to import `populous.inlines.inlines`.
+    """
+    name = "%s.inlines" % app_name
+    mod = __import__(name)
+    components = name.split('.')
+    for comp in components[1:]:
+        mod = getattr(mod, comp)
+    return mod
+
+def get_inline(app_label, inline_name):
+    mod = imp_inline_mod(app_label)
+    for item in [item for item in dir(mod) if not item.startswith('_')]:
+        item = getattr(mod, item)
+        if item.__name__.lower() == inline_name.lower():
+            return item
+
 def get_inline_description(inline):
     """
     Returns a string that has been converted from
