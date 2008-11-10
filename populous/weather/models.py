@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from django.core.urlresolvers import reverse
 from weather.managers import ForecastManager, ForecastDayManager
@@ -31,10 +32,38 @@ class Forecast(models.Model):
                 'month': date.strftime('%b').lower(),
                 'day': date.day,
                 'object_id': self.id,
-                })        
+                })
     
     def __unicode__(self):
         return "%s at %s" % (self.location, self.observation_time)
+    
+    def sun_or_moon(self):
+        HALF_PERIOD = 14.5
+        latest_data = ForecastDay.objects.get_latest(1, False)[0]
+        result = "%s" % self.icon
+        if (latest_data.sun_set <= datetime.now() and datetime.now().hour > 12) or (datetime.now().hour < 12 and latest_data.sun_rise >= datetime.now()):
+            result += '_moon'
+            illumination = int(latest_data.moon_illuminated)
+            if illumination < 12.5:
+                result += '_new'
+            elif illumination >= 12.5 and illumination < 38:
+                if latest_data.moon_age < HALF_PERIOD:
+                    result += '_waxing_crescent'
+                else:
+                    result += '_waning_crescent'
+            elif illumination >= 38 and illumination < 63:
+                if latest_data.moon_age < HALF_PERIOD:
+                    result += '_first_quarter'
+                else:
+                    result += '_last_quarter'
+            elif illumination >= 63 and illumination < 87:
+                if latest_data.moon_age < HALF_PERIOD:
+                    result += '_waxing_gibbous'
+                else:
+                    result += '_waning_gibbous'
+            elif illumination > 87:
+                result += '_full'
+        return result
 
 #Only one of these per day
 class ForecastDay(models.Model):
