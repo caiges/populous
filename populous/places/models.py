@@ -5,7 +5,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.contenttypes.models import ContentType
 from populous.locations.models import Location
-from populous.places.query import PlaceOptionQuerySet
 
 PLACE_OPTION_CHOICES = (
     (0, 'check box'),
