@@ -1,0 +1,17 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | {% trans 'Django site admin' %}{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    {% load genericadmin %}
+    <script type="text/javascript">{% get_generic_relation_list %}</script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}genericadmin.js"></script>
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'Django administration' %}</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
