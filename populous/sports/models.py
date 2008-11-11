@@ -1,12 +1,7 @@
 from django.db import models
-from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
 from populous.places.models import School
-#from django.conf import settings
-
-# The name of the default team
-DEFAULT_SCHOOL = 'University of California Los Angeles' #TODO: move this into settings
 
 GENDER_CHOICES = (
     ('M', _('Men')),
@@ -75,20 +70,3 @@ class Match(models.Model):
             self.game_time)
     
     objects = MatchManager()
-
-class SportAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ("name",)}
-
-class MatchAdmin(admin.ModelAdmin):
-    fieldsets = (
-        (_('Match Details'),
-            {'fields': (('sport','gender'), 'game_time')
-        }),
-        (_('Scores'),
-            {'fields': (('home_team', 'home_team_score'), ('away_team', 'away_team_score'))
-        }),
-    )
-    list_filter = ('gender',)
-
-admin.site.register(Sport, SportAdmin)
-admin.site.register(Match, MatchAdmin)
