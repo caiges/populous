@@ -28,7 +28,7 @@ class TextInline(Inline):
             self.data.get('template'),
             "inlines/textinline/%s/%s_%s_%s.html" % (app_label, module_name, field.name, obj.pk),
             "inlines/textinline/%s/%s_%s.html" % (app_label, module_name, field.name),
-            "inlines/textinline/%s/%s_%s.html" % (app_label, module_name),
+            "inlines/textinline/%s/%s.html" % (app_label, module_name),
             "inlines/textinline/default.html"
         ])
         c = RequestContext(request, {'inline': self})

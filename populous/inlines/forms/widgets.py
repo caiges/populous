@@ -4,6 +4,7 @@ from django.db.models.fields.related import ManyToOneRel
 from django.utils.safestring import mark_safe
 from django.template import loader, Context, Template
 from django.conf import settings
+from populous.inlines.markup import xml_to_editor
 
 class ForeignKeyRawIdWidget(DefaultForeignKeyRawIdWidget):
     """
@@ -17,40 +18,16 @@ class ForeignKeyRawIdWidget(DefaultForeignKeyRawIdWidget):
         super(ForeignKeyRawIdWidget,self).__init__(rel, attrs)
 
 
-INLINE_TEMPLATE = Template(mark_safe("""{
-    name: "{{ inline.name }}",
-    className: "{{ inline.class_name }}",
-    replaceWith: function() {
-        var data;
-        $.ajax({
-            async: false,
-            type: "GET",
-            url: "{{ inline.get_form_url }}",
-            success: function(html){
-                data = html;
-            }
-        });
-        return data;
-    }
-}"""))
-
-
 class InlineTextareaWidget(Textarea):
     """
     Adds the required javascript for use with ``InlineField``.
     """
     
     class Media:
-        css = {
-            'all': (
-                "%sinlines/markitup/skins/simple/style.css" % settings.MEDIA_URL, 
-                "%sinlines/markitup/sets/newsml/style.css" % settings.MEDIA_URL,)
-        }
-        
         js = (
-            "%sinlines/markitup/jquery.markitup.js" % settings.MEDIA_URL,
-            "%sinlines/markitup/sets/newsml/set.js" % settings.MEDIA_URL,
-            )
+            '/admin_media/tinymce_2/jscripts/tiny_mce/tiny_mce.js',
+            '/admin_media/tinymce_setup/inlines_setup.js'
+        )
     
     def render(self, name, value, attrs=None):
         from populous.inlines.models import RegisteredInline
@@ -60,13 +37,16 @@ class InlineTextareaWidget(Textarea):
             'inlines/widgets/inline_textarea.html'
         ])
         
+        #value = xml_to_editor(value, None, None, None)
+        default = super(InlineTextareaWidget, self).render(name, value, attrs)
+        
         inline_js = loader.get_template('inlines/parts/inline.js')
         c = Context({
             'MEDIA_URL': settings.MEDIA_URL,
             'name': name,
             'value': value,
             'attrs': attrs,
-            'default': super(InlineTextareaWidget, self).render(name, value, attrs),
-            'inlines': mark_safe('[%s]') % ','.join([inline_js.render(Context({'inline': inline})) for inline in RegisteredInline.objects.all()])
+            'default': default,
+            #'inlines': mark_safe('[%s]') % ','.join([inline_js.render(Context({'inline': inline})) for inline in RegisteredInline.objects.all()])
         })
         return mark_safe(t.render(c))
