@@ -6,6 +6,9 @@ class AudioAdmin(admin.ModelAdmin):
     list_filter = ('type', 'sites', 'categories')
     search_fields = ('title', 'file')
 
+    class Media:
+        js = ['/admin_media/filebrowser/js/AddFileBrowser.js']
+
 class BaseFileTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'content_type')
     list_filter = ('content_type',)

@@ -1,10 +1,11 @@
 from django.db import models
-from django.contrib.sites.managers import CurrentSiteManager
-from django.contrib.sites.models import Site
 from django.utils.html import strip_tags
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.sites.managers import CurrentSiteManager
+from django.contrib.sites.models import Site
 
-#from populous.staff.models import StaffMember
+from populous.filebrowser.fields import FileBrowseField
+from populous.staff.models import StaffMember
 from populous.categories.models import Category
 
 CONTENT_TYPE_CHOICES = (
@@ -32,7 +33,7 @@ class BaseFileType(models.Model):
 class Audio(models.Model):
     title = models.CharField(_('title'), max_length=255)
     type = models.ForeignKey(BaseFileType, limit_choices_to={'content_type': 'audio'}, verbose_name=_('audio type'))
-    file = models.FileField(_('audio file'), upload_to='audio/%Y/%m/%d', blank=True, null=True)
+    file = FileBrowseField(_('audio file'), initial_directory='/audio/', blank=True, null=True)
     url = models.URLField(_('audio URL'), blank=True, null=True)
     date_created = models.DateTimeField(_('date created'))
     date_uploaded = models.DateTimeField(_('date updated'), auto_now_add=True)
@@ -97,7 +98,7 @@ class Photo(models.Model):
     caption = models.TextField(_('caption'), blank=True)
     date_created = models.DateTimeField(_('date created'))
     date_uploaded = models.DateTimeField(_('date updated'), auto_now_add=True)
-    #photographer = models.ForeignKey(StaffMember, blank=True, null=True, limit_choices_to={'responsibilities__name__iexact': 'takes photos'}, verbose_name=_('photographer'))
+    photographer = models.ForeignKey(StaffMember, blank=True, null=True, limit_choices_to={'responsibilities__name__iexact': 'takes photos'}, verbose_name=_('photographer'))
     one_off_photographer = models.CharField(_('one-off photographer'), max_length=100, blank=True)
     credit = models.CharField(_('credit'), max_length=150, blank=True)
     categories = models.ManyToManyField(Category, verbose_name='categories', blank=True, null=True)
@@ -133,7 +134,7 @@ class Video(models.Model):
     date_created = models.DateTimeField(_('date created'))
     date_uploaded = models.DateTimeField(_('date uploaded'), auto_now_add=True)
     
-    #videographer = models.ForeignKey(StaffMember, blank=True, null=True, verbose_name=_('videographer'))
+    videographer = models.ForeignKey(StaffMember, blank=True, null=True, verbose_name=_('videographer'))
     one_off_videographer = models.CharField(_('one-off videographer'), max_length=200, blank=True)
     
     type = models.ForeignKey(BaseFileType, limit_choices_to={'content_type': 'video'}, verbose_name=_('video type'))
