@@ -10,8 +10,8 @@ find a list of packages that you need to have installed.
 Required
 ========
 
-  * libxml2 (http://xmlsoft.org/downloads.html)
-  * libxslt (http://xmlsoft.org/downloads.html)
+  * libxml2 (http://xmlsoft.org/downloads.html) (libxml2-dev)
+  * libxslt (http://xmlsoft.org/downloads.html) (libxslt1-dev)
   * lxml >= 2.0.7 (http://codespeak.net/lxml/index.html)
   * ElementTree >= 1.3 (http://svn.effbot.org/public/elementtree-1.3/)
 
