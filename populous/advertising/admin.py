@@ -1,7 +1,8 @@
 from django.contrib import admin
-from populous.advertising.models import TextAd, GraphicAd, VideoAd, CouponCategory,
-                                        Coupon, ClassifiedSubCategory, ClassifiedCategory,
-                                        ClassifiedAd, UploadClassifiedAdSet, CurrentClassifiedAdSet,
+from django.utils.translation import gettext_lazy as _
+from populous.advertising.models import TextAd, GraphicAd, VideoAd, CouponCategory, \
+                                        Coupon, ClassifiedSubCategory, ClassifiedCategory, \
+                                        ClassifiedAd, UploadClassifiedAdSet, CurrentClassifiedAdSet, \
                                         Client, Placement, Statistic, ScheduledAd
 
 DEFAULT_ADMIN_JS = ['js/jquery.js', 'js/related_content.js', 'js/generic.js',]

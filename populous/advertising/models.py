@@ -17,20 +17,20 @@ class Client(models.Model):
     run an ``Ad`` on one of our websites.
     """
     # Contact Info:
-    name = models.CharField(_('business name'), maxlength=200, blank=True)
-    phone1 = models.PhoneNumberField(_('primary phone number'), blank=True, null=True)
-    phone2 = models.PhoneNumberField(_('secondary phone number'), blank=True, null=True)
-    fax = models.PhoneNumberField(_('fax number'), blank=True, null=True)
+    name = models.CharField(_('business name'), max_length=200, blank=True)
+    phone1 = models.CharField(_('primary phone number'), max_length=50, blank=True, null=True)
+    phone2 = models.CharField(_('secondary phone number'),  max_length=50, blank=True, null=True)
+    fax = models.CharField(_('fax number'), max_length=50, blank=True, null=True)
     email = models.EmailField(_('e-mail Address'), blank=True)
     website = models.URLField(_('website URL'), blank=True, null=True)
     
     # Address Info:
-    address1 = models.CharField(_('street address 1'), maxlength=200, blank=True)
-    address2 = models.CharField(_('street address 2'), maxlength=200, blank=True)
-    city = models.CharField(_('city'), maxlength=200, blank=True)
-    state = models.USStateField(_('state/province'), blank=True)
-    zipcode = models.CharField(_('zipcode'), maxlength=10, blank=True)
-    country = models.CharField(_('country'), maxlength=255, blank=True)
+    address1 = models.CharField(_('street address 1'), max_length=200, blank=True)
+    address2 = models.CharField(_('street address 2'), max_length=200, blank=True)
+    city = models.CharField(_('city'), max_length=200, blank=True)
+    state = models.CharField(_('state/province'), max_length=255, blank=True)
+    zipcode = models.CharField(_('zipcode'), max_length=10, blank=True)
+    country = models.CharField(_('country'), max_length=255, blank=True)
     
     class Meta:
         verbose_name = _("client")
@@ -74,14 +74,14 @@ class Placement(models.Model):
     A ``Placement`` contains a mapping of ``Ad``\s to be displayed.  ``Placement``\s
     use a ``foreign_key``/``content_type`` pair to create a generic relationship
     """
-    location = models.CharField(_('location'), maxlength=255)
+    location = models.CharField(_('location'), max_length=255)
     notes = models.TextField(_('notes'), blank=True, null=True)
     type_placement = models.IntegerField(_('type'), choices=PLACEMENT_TYPES)
     sites = models.ManyToManyField(Site)
     
     num_ads = models.IntegerField(_('number of ads'), blank=True, null=True,
         help_text=_('Number of ads to display.  NOTE: this is only applicable to "Multi Ad" placements.'))
-    template = models.CharField(maxlength=255, blank=True, null=True)
+    template = models.CharField(max_length=255, blank=True, null=True)
     orientation = models.IntegerField(choices = PLACEMENT_ORIENTATION, default=1)
     
     image = models.ImageField(upload_to='img/advertisements/placements', blank=True, null=True)
@@ -259,7 +259,7 @@ class ScheduledAd(models.Model):
         help_text=_('''
             Each number <strong>doubles</strong> the probability of showing the ad over the previous number.
             For example, an ad with priority 2 will show up <strong>twice</strong> as often as an ad with the default priority.'''))
-    behavior = models.PositiveIntegerField(maxlength=5, choices=BEHAVIOR_TYPES, default=0,
+    behavior = models.PositiveIntegerField(max_length=5, choices=BEHAVIOR_TYPES, default=0,
         help_text=_('''
             <strong>Basic</strong>: A <em>basic</em> ad will run until manually stopped.<br />
             <strong>Date</strong>: A <em>date</em> ad will run until the specified date.<br />
@@ -273,7 +273,7 @@ class ScheduledAd(models.Model):
     end_date = models.DateTimeField(_('end date'), blank=True, null=True,
         help_text=_('''<strong>Date and time ad expires</strong>.'''))
     
-    template = models.CharField(_('template'), maxlength=255, blank=True, null=True)
+    template = models.CharField(_('template'), max_length=255, blank=True, null=True)
     
     stat_id = models.IntegerField(editable=False, blank=True, null=True)
     is_expired = models.BooleanField(default=False, editable=False)
@@ -332,7 +332,7 @@ class CouponCategory(models.Model):
     ``Coupon`` instances to a commmon category.
     """
     
-    name = models.CharField(_('name'), maxlength=200, unique=True)
+    name = models.CharField(_('name'), max_length=200, unique=True)
     slug = models.SlugField(_('slug'), unique=True)
     
     class Meta:
@@ -353,7 +353,7 @@ class BaseAd(models.Model):
     instances need to extend this model.
     """
     
-    #name = models.CharField(maxlength=255)
+    #name = models.CharField(max_length=255)
     #slug = models.SlugField(prepopulate_from=["name"], unique=True)
     #client = models.ForeignKey(Client, raw_id_admin=True)
     
@@ -473,16 +473,16 @@ class TextAd(BaseAd):
     """
     A ``TextAd`` is the most basic ``Ad``.
     """
-    name = models.CharField(_('name'), maxlength=255)
+    name = models.CharField(_('name'), max_length=255)
     slug = models.SlugField(_('slug'), unique=True)
     client = models.ForeignKey(Client, verbose_name=_('client'))
-    kicker = models.CharField(maxlength=200, blank=True, 
+    kicker = models.CharField(max_length=200, blank=True, 
         help_text=_('''
             This text will be displayed as a link to the text ad's details.<br />
             <strong>NOTE</strong>: If there is no kicker, then the add will assume that it is only supposed to display the graphic and address information.'''))
-    caption = models.CharField(_('caption'), maxlength=200, blank=True)
-    decked_head = models.CharField(_('decked head'), maxlength=200, blank=True)
-    content = models.TextField(_('content'), maxlength=2000, blank=True)
+    caption = models.CharField(_('caption'), max_length=200, blank=True)
+    decked_head = models.CharField(_('decked head'), max_length=200, blank=True)
+    content = models.TextField(_('content'), max_length=2000, blank=True)
     
     image = models.ImageField(_('image to upload'), upload_to='img/advertisements/text_ads/%Y/%m/%d', blank=True, null=True)
     image_only = models.BooleanField(help_text=_('''Choose this if you only want this ad to be represented as an <strong>image only</strong>.'''))
@@ -502,7 +502,7 @@ class GraphicAd(BaseAd):
     """
     A ``GraphicAd`` is simply an image and an optional url.
     """
-    name = models.CharField(_('name'), maxlength=255)
+    name = models.CharField(_('name'), max_length=255)
     slug = models.SlugField(_('slug'), unique=True)
     client = models.ForeignKey(Client, verbose_name=_('client'))
     image = models.ImageField(_('Image to Upload'), upload_to='img/ads/graphic/%Y/%m/%d')
@@ -521,7 +521,7 @@ class VideoAd(BaseAd):
     A ``VideoAd`` is similar to a ``GraphicAd``, but displays a video instead of
     an image.
     """
-    name = models.CharField(_('name'), maxlength=255)
+    name = models.CharField(_('name'), max_length=255)
     slug = models.SlugField(_('slug'), unique=True)
     client = models.ForeignKey(Client, verbose_name=_('client'))
     video = models.FileField(upload_to='videos/advertisements/%Y/%m/%d')
@@ -541,13 +541,13 @@ class Coupon(BaseAd):
     A `Coupon` belongs in a ``CouponCategory``.
     '''
     
-    name = models.CharField(_('name'), maxlength=255)
+    name = models.CharField(_('name'), max_length=255)
     slug = models.SlugField(_('slug'), unique=True)
     client = models.ForeignKey(Client, verbose_name=_('client'))
-    headline = models.CharField(maxlength=200, unique=True)
+    headline = models.CharField(max_length=200, unique=True)
     category = models.ForeignKey(CouponCategory)
     image = models.ImageField(upload_to='img/advertisements/coupons/%Y/%m/%d')
-    image_orientation = models.CharField(_('Image Orientation'), maxlength=1, choices=ORIENTATION_CHOICES)
+    image_orientation = models.CharField(_('Image Orientation'), max_length=1, choices=ORIENTATION_CHOICES)
     
     ADMIN_FILTER_DISPLAY = True
     
@@ -558,7 +558,7 @@ class Coupon(BaseAd):
 
 class ClassifiedSubCategory(models.Model):
     """		Child of ClassifiedsCategory, parent of ClassifiedsAd."""
-    name = models.CharField(maxlength=200, unique=True)
+    name = models.CharField(max_length=200, unique=True)
     sub_category_id = models.IntegerField(unique=True)
     slug = models.SlugField(unique=True)
     
@@ -571,7 +571,7 @@ class ClassifiedSubCategory(models.Model):
 
 class ClassifiedCategory(models.Model):
     """		Top Classified parent."""
-    name = models.CharField(maxlength=200, unique=True)
+    name = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(unique=True)
     sub_categories = models.ManyToManyField(ClassifiedSubCategory)
     
@@ -584,7 +584,7 @@ class ClassifiedCategory(models.Model):
 
 class ClassifiedAd(models.Model):
     """		Simple classified with optional address information."""
-    name = models.CharField(maxlength=200)
+    name = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
     live_date = models.DateTimeField('Date Added')
     subcategory = models.ForeignKey(ClassifiedSubCategory)
@@ -606,7 +606,7 @@ class UploadClassifiedAdSet(models.Model):
         return self.file
     
 class CurrentClassifiedAdSet(models.Model):
-    name = models.CharField(maxlength=1000)
+    name = models.CharField(max_length=1000)
     file = models.FilePathField(path="classifieds/")
     
     def __unicode__(self):
