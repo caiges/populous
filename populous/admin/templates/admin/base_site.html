@@ -1,5 +1,6 @@
 {% extends "admin/base.html" %}
 {% load i18n %}
+{% load adminmedia %}
 
 {% block title %}{{ title }} | {% trans 'Django site admin' %}{% endblock %}
 
@@ -7,7 +8,7 @@
     {{ block.super }}
     {% load genericadmin %}
     <script type="text/javascript">{% get_generic_relation_list %}</script>
-    <script type="text/javascript" src="{{ MEDIA_URL }}genericadmin.js"></script>
+    <script type="text/javascript" src="{% admin_media_prefix %}js/genericadmin.js"></script>
 {% endblock %}
 
 {% block branding %}
