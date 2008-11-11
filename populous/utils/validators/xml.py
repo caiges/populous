@@ -2,6 +2,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 from django.forms.util import ValidationError as FormsValidationError
 from django.utils.encoding import smart_unicode
+from django.template.defaultfilters import truncatewords_html
 
 from lxml import etree
 import re
@@ -54,7 +55,7 @@ class RelaxNGValidator(object):
             m = re.search(r'Element (.+?) failed to validate attributes', error.message)
             if m:
                 display_errors.append(_(u'A tag on line %(line)s is missing one or more required attributes. (Line starts with "%(start)s".)') % \
-                    {'line':error.line + adjust_line, 'start':lines[int(error.line) - 1][:30]})
+                    {'line':error.line + adjust_line, 'start':truncatewords_html(lines[int(error.line) - 1], 5)})
                 continue
             m = re.search(r'Invalid attribute (.+?) for element (.+?)$', error.message)
             if m:
@@ -73,12 +74,12 @@ class RelaxNGValidator(object):
                 'data': xml_data
             }
         
-        etree.clearErrorLog()
+        etree.clear_error_log()
         try:
             doc = etree.parse(StringIO(xml_data))
         except etree.XMLSyntaxError, e:
             self.raiseValidationError(xml_data, e.error_log)
-        etree.clearErrorLog()
+        etree.clear_error_log()
         
         schema_path = self.schema_path
         if schema_path:
