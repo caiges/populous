@@ -98,7 +98,7 @@ class Photo(models.Model):
     caption = models.TextField(_('caption'), blank=True)
     date_created = models.DateTimeField(_('date created'))
     date_uploaded = models.DateTimeField(_('date updated'), auto_now_add=True)
-    photographer = models.ForeignKey(StaffMember, blank=True, null=True, limit_choices_to={'responsibilities__name__iexact': 'takes photos'}, verbose_name=_('photographer'))
+    photographer = models.ForeignKey(StaffMember, blank=True, null=True, verbose_name=_('photographer'))
     one_off_photographer = models.CharField(_('one-off photographer'), max_length=100, blank=True)
     credit = models.CharField(_('credit'), max_length=150, blank=True)
     categories = models.ManyToManyField(Category, verbose_name='categories', blank=True, null=True)
