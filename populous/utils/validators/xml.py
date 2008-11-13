@@ -7,10 +7,8 @@ from django.template.defaultfilters import truncatewords_html
 from lxml import etree
 import re
 
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
+# Can't use cStringIO because it messes up the unicode string
+from StringIO import StringIO
 
 class RelaxNGValidator(object):
     "Validate against a Relax NG schema"
@@ -69,7 +67,7 @@ class RelaxNGValidator(object):
     def validate(self, xml_data):
         self.errors = []
         if self.additional_root_element:
-            xml_data = '<%(are)s>\n%(data)s\n</%(are)s>' % {
+            xml_data = u'<%(are)s>\n%(data)s\n</%(are)s>' % {
                 'are': self.additional_root_element,
                 'data': xml_data
             }
