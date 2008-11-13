@@ -24,6 +24,9 @@ class BaseFileType(models.Model):
     mime_type = models.CharField(_('mime-type'), max_length=200)
     content_type = models.CharField(_('content type'), max_length=20, choices=CONTENT_TYPE_CHOICES)
     
+    class Meta:
+        verbose_name = _("file type")
+    
     def __unicode__(self):
         return u"%s (%s)" % (self.name, self.content_type)
 
@@ -33,7 +36,7 @@ class BaseFileType(models.Model):
 class Audio(models.Model):
     title = models.CharField(_('title'), max_length=255)
     type = models.ForeignKey(BaseFileType, limit_choices_to={'content_type': 'audio'}, verbose_name=_('audio type'))
-    file = FileBrowseField(_('audio file'), initial_directory='/audio/', blank=True, null=True)
+    file = FileBrowseField(_('audio file'), max_length=400, initial_directory='/audio/', blank=True, null=True)
     url = models.URLField(_('audio URL'), blank=True, null=True)
     date_created = models.DateTimeField(_('date created'))
     date_uploaded = models.DateTimeField(_('date updated'), auto_now_add=True)
@@ -67,7 +70,7 @@ class Audio(models.Model):
 class File(models.Model):
     title = models.CharField(_('title'), max_length=500)
     type = models.ForeignKey(BaseFileType, limit_choices_to={'content_type': 'file'}, verbose_name=_('file type'))
-    file = models.FileField(_('file'), upload_to='files/%Y/%m/%d', blank=True, null=True)
+    file = FileBrowseField(_('file'), max_length=400, initial_directory='/files/', blank=True, null=True)
     date_uploaded = models.DateTimeField(_('date updated'), auto_now_add=True)
     categories = models.ManyToManyField(Category, verbose_name='categories', blank=True, null=True)
     sites = models.ManyToManyField(Site, verbose_name=_('sites'))
@@ -91,8 +94,7 @@ class File(models.Model):
 ##########
 class Photo(models.Model):
     type = models.ForeignKey(BaseFileType, limit_choices_to={'content_type': 'image'}, verbose_name=_('file type'))
-    file = models.ImageField(_('image file'), upload_to='img/images/%Y/%m/%d', width_field='width', height_field='height',
-        help_text=_('Photos must ONLY be of the file formats including: jpg|gif|png'))
+    file = FileBrowseField(_('image file'), max_length=400, initial_directory='/photos/', help_text=_('Photos must ONLY be of the file formats including: jpg|gif|png'))
     width = models.IntegerField(_('width'), blank=True, null=True, editable=False)
     height = models.IntegerField(_('height'), blank=True, null=True, editable=False)
     caption = models.TextField(_('caption'), blank=True)
@@ -116,7 +118,7 @@ class Photo(models.Model):
         get_latest_by = "date_created"
     
     def __unicode__(self):
-        return strip_tags(self.caption).strip()[:100] or u"[%s]" % self.file.name
+        return strip_tags(self.caption).strip()[:100] or u"[%s]" % self.file
     
     def get_absolute_url(self):
         return u"/media/photos/%s/%s/" % (self.creation_date.strftime("%Y/%b/%d").lower(), self.id)
@@ -138,7 +140,7 @@ class Video(models.Model):
     one_off_videographer = models.CharField(_('one-off videographer'), max_length=200, blank=True)
     
     type = models.ForeignKey(BaseFileType, limit_choices_to={'content_type': 'video'}, verbose_name=_('video type'))
-    file = models.FileField(_('video file'), upload_to='videos/%Y/%m/%d', blank=True, null=True)
+    file = FileBrowseField(_('video file'), max_length=400, initial_directory='/videos/', blank=True, null=True)
     url = models.URLField(_('video URL'),
         help_text=_('Full URL to the video file.  Use this only if no video file is provided.'), blank=True, null=True)
     
@@ -147,8 +149,7 @@ class Video(models.Model):
     height = models.IntegerField(_('video height'), default=240, help_text=_('In pixels.'))
     sites = models.ManyToManyField(Site, verbose_name=_('sites'))
     
-    thumbnail_photo = models.ImageField(_('thumbnail photo'), upload_to='videos/%Y/%m/%d',
-        width_field='thumbnail_width', height_field='thumbnail_height', blank=True, null=True)
+    thumbnail_photo = models.ImageField(_('thumbnail photo'), upload_to='/videos/thumbs/', blank=True, null=True)
     thumbnail_width = models.IntegerField(_('thumbnail width'), blank=True, null=True, editable=False)
     thumbnail_height = models.IntegerField(_('thumbnail height'), blank=True, null=True, editable=False)
     
@@ -182,7 +183,7 @@ class AlternateVideo(models.Model):
     '''An AlternateVideo is used if you want to have multiple version of a video available.  Say for instance you want to provide multiple resolutions of the same video for different bandwidths, or if you want to provide the video in multiple formats (i.e. .flv, .avi, .mov, ...)'''
     video = models.ForeignKey(Video)
     type = models.ForeignKey(BaseFileType, limit_choices_to={'content_type': 'video'}, verbose_name=_('video type'))
-    file = models.FileField(_('video file'), upload_to='videos/%Y/%m/%d', blank=True, null=True)
+    file = FileBrowseField(_('video file'), max_length=400, initial_directory='/videos/', blank=True, null=True)
     url = models.URLField(_('video URL'),
         help_text=_('Full URL to the video file.  Use this only if no video file is provided.'), blank=True, null=True)
     

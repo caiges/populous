@@ -6,9 +6,6 @@ class AudioAdmin(admin.ModelAdmin):
     list_filter = ('type', 'sites', 'categories')
     search_fields = ('title', 'file')
 
-    class Media:
-        js = ['/admin_media/filebrowser/js/AddFileBrowser.js']
-
 class BaseFileTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'content_type')
     list_filter = ('content_type',)
@@ -20,7 +17,7 @@ class FileAdmin(admin.ModelAdmin):
 
 class PhotoAdmin(admin.ModelAdmin):
     fieldsets = (
-        (None, {'fields': ('file', 'caption', 'sites')}),
+        (None, {'fields': ('file', 'type', 'caption', 'sites')}),
         ('Credit', {'fields': ('one_off_photographer', 'credit', 'date_created')}),
     )
     list_display = ('file', 'caption', 'date_created')
