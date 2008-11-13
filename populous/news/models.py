@@ -11,7 +11,8 @@ from populous.categories.models import Category
 from populous.filebrowser.fields import FileBrowseField
 from populous.inlines.fields import InlineField
 from populous.staff.models import StaffMember
-from populous.tagging.fields import TagField
+#from populous.tagging.fields import TagField
+from populous.topics.models import Topic
 
 COMMENT_CHOICES = (
     (0, "Disabled"),
@@ -55,13 +56,14 @@ class Story(models.Model):
     # Meta
     pub_date = models.DateTimeField()
     update_date = models.DateTimeField(auto_now=True)
-    categories = models.ManyToManyField(Category, verbose_name=_('categories'),
+    categories = models.ManyToManyField(Category, verbose_name=_('categories'), limit_choices_to={'representation__istartswith': 'stories'},
         help_text=_("You can think of these as sections in a newspaper."))
     bylines = models.ManyToManyField(StaffMember, blank=True)
     bylines_override = models.CharField(_('byline override'), max_length=300, blank=True,
         help_text=_("If entered, no staff members selected in the bylines field will show up on the story page."))
     slug = models.SlugField(_('slug'))
-    tags = TagField()
+    #tags = TagField()
+    topics = models.ManyToManyField(Topic, blank=True, null=True)
     dateline = models.ForeignKey(Dateline, verbose_name=_('dateline'), blank=True, null=True)
     is_approved = models.BooleanField(_('approved for publishing'), default=False,
         help_text=_("This must be checked for the story to be visible to the public."))
@@ -94,7 +96,7 @@ class Story(models.Model):
 
 class Collection(models.Model):
     title = models.CharField(_('name'), max_length=200)
-    url = models.URLField(_('url'), verify_exists=False, unique=True)
+    url = models.CharField(_('url'), max_length=500, unique=True)  # TODO: URLField doesn't work here because it is a relative url...
     content = InlineField(blank=True, null=True)
     category = models.ForeignKey(Category, verbose_name=_('category'))
     limit = models.PositiveIntegerField(_('max number of objects'), default=15,

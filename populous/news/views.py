@@ -8,7 +8,6 @@ from django.utils.safestring import mark_safe
 
 from news.models import Collection
 
-DEFAULT_TEMPLATE = 'news/collection_default.html'
 
 def collection(request, url):
     if not url.endswith('/') and settings.APPEND_SLASH:
@@ -16,13 +15,9 @@ def collection(request, url):
     if not url.startswith('/'):
         url = "/" + url
     collection = get_object_or_404(Collection, url=url, sites=Site.objects.get_current())
-    if collection.template_name:
-        t = loader.select_template((collection.template_name, DEFAULT_TEMPLATE))
-    else:
-        t = loader.get_template(DEFAULT_TEMPLATE)
-    
-    c = RequestContext(request, {
-        'collection': collection,
-    })
-    response = HttpResponse(t.render(c))
-    return response
+    t = loader.select_template((
+        collection.template_name,
+        'news/collections/%s.html' % '_'.join(collection.url.strip('/').split('/')),
+        'news/collections/default.html'))
+    c = RequestContext(request, {'collection': collection})
+    return HttpResponse(t.render(c))
