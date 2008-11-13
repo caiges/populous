@@ -24,14 +24,17 @@ class TextInline(Inline):
 
     def render(self, request, obj, field):
         app_label, module_name = obj._meta.app_label, obj._meta.module_name
+        print app_label, module_name
         t = loader.select_template([
             self.data.get('template'),
-            "inlines/textinline/%s/%s_%s_%s.html" % (app_label, module_name, field.name, obj.pk),
-            "inlines/textinline/%s/%s_%s.html" % (app_label, module_name, field.name),
+            "inlines/textinline/%s/%s_%s_%s.html" % (app_label, module_name, obj.pk, field.name),
+            "inlines/textinline/%s/%s_%s.html" % (app_label, module_name, obj.pk),
             "inlines/textinline/%s/%s.html" % (app_label, module_name),
             "inlines/textinline/default.html"
         ])
-        c = RequestContext(request, {'inline': self})
+        c = RequestContext(request, {
+            'inline': self,
+            'obj': obj})
         return t.render(c)
 
 

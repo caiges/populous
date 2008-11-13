@@ -1,6 +1,8 @@
-<div class="{{ inline.data.class }} text-inline">
+<div class="{% block class %}{{ inline.data.class }} text-inline{% endblock %}" {% block div_attrs %}{% endblock %}>
+    {% block content %}
     {% if title %}
     <h3>{{ inline.data.title }}</h3>
     {% endif %}
     <p>{{ inline.data.content }}</p>
+    {% endblock %}
 </div>

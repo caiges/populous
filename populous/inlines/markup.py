@@ -1,4 +1,5 @@
 from lxml import etree
+from xml.dom import minidom
 from django.utils.safestring import mark_safe
 from populous.inlines.utils import get_inline
 
@@ -37,8 +38,9 @@ class XMLToXHTMLParser(object):
             return
         elif tag == "inline":
             #TODO: process inlines
-            inline = get_inline(*attrs.get('type').split("."))
-            self.output.append("<!-- inline goes here (%s) -->" % inline.verbose_name)
+            inline_class = get_inline(*attrs.get('type').split("."))
+            inline = inline_class(attrs)
+            self.output.append(inline.render(self.request, self.obj, self.field))
             return
         self.output.append("<%s>" % tag)
     

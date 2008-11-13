@@ -4,7 +4,10 @@ from django.db.models.fields.related import ManyToOneRel
 from django.utils.safestring import mark_safe
 from django.template import loader, Context, Template
 from django.conf import settings
-from populous.inlines.markup import xml_to_editor
+#from populous.inlines.markup import xml_to_editor
+from xml.dom import minidom
+
+from populous.inlines.utils import unicode_to_html
 
 class ForeignKeyRawIdWidget(DefaultForeignKeyRawIdWidget):
     """
@@ -37,7 +40,13 @@ class InlineTextareaWidget(Textarea):
             'inlines/widgets/inline_textarea.html'
         ])
         
-        #value = xml_to_editor(value, None, None, None)
+        #value = value.rstrip('</content>').lstrip('<content>')
+        if value:
+            try:
+                dom = minidom.parseString(value)
+                value = unicode_to_html(''.join([n.toxml() for n in dom.firstChild.childNodes]))
+            except:
+                pass
         default = super(InlineTextareaWidget, self).render(name, value, attrs)
         
         inline_js = loader.get_template('inlines/parts/inline.js')

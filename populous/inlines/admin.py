@@ -2,6 +2,7 @@ from django.contrib import admin
 from populous.inlines.models import RegisteredInline, AllowedField
 
 class AllowedFieldInline(admin.StackedInline):
+    filter_horizontal = ('sites',)
     model = AllowedField
     extra = 3
 

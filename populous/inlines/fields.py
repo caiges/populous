@@ -2,6 +2,7 @@
 Custom InlineField class.
 """
 from django.db import models
+from django.utils.text import capfirst
 from populous.inlines.forms.fields import InlineField as InlineFormField
 
 def get_default_schema():
@@ -27,5 +28,10 @@ class InlineField(models.TextField):
         the ``textarea`` is rendered with the proper ``InlineField``
         widget and also to add XML validation.
         """
+        defaults = {
+            'required': not self.blank,
+            'label': capfirst(self.verbose_name),
+            'help_text': self.help_text}
+        defaults.update(kwargs)
         schema_path = "%s_%s_%s.rng" % (self.app_label, self.model_name, self.name)
-        return InlineFormField(schema_path, **kwargs)
+        return InlineFormField(schema_path, **defaults)
