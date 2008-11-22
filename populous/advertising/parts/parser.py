@@ -1,6 +1,5 @@
 """
-       Daily Bruin Classifieds XML Parser v2
-               Oct 10th 2007 - Weston Nielson
+Classifieds AdPro XML Parser
 """
 import re
 from xml.dom import minidom

@@ -336,7 +336,6 @@ class CouponCategory(models.Model):
     slug = models.SlugField(_('slug'), unique=True)
     
     class Meta:
-#        app_label = 'advertisements'
         verbose_name_plural=_("coupon categories")
     
     def __unicode__(self):
@@ -464,10 +463,9 @@ class BaseAd(models.Model):
         })
         return template.render(c)
 
-###################################
+
 ###################################
 #   Specific Advertising Models  ##
-###################################
 ###################################
 class TextAd(BaseAd):
     """
@@ -492,9 +490,6 @@ class TextAd(BaseAd):
     
     ADMIN_FILTER_DISPLAY = True
     
-#    class Meta:
-#        app_label = 'advertisements'
-    
     def get_absolute_url(self):
         return self.link or None
 
@@ -509,9 +504,6 @@ class GraphicAd(BaseAd):
     url = models.URLField(_('url'), blank=True, help_text=_('''If you want the ad to be clickable, enter the url here.'''))
     
     ADMIN_FILTER_DISPLAY = True
-    
-#    class Meta:
-#        app_label = 'advertisements'
     
     def get_absolute_url(self):
         return self.url or None
@@ -651,20 +643,3 @@ class CurrentClassifiedAdSet(models.Model):
                     auto_imported = True
                 )
                 newAd.save()
-
-#        
-#        from django.models.advertising import classifiedads
-#        from django.core.template import Context, Template
-#        
-#        ## Open Files
-#        OUTPUT = open('/home/html/templates/dailybruin.com/ssi/classified_ads_top6.html', 'wb')
-#        TEMPLATE = Template(open('/home/html/templates/dailybruin.com/ssi/classified_ads_top6_template.html', 'r').read())
-#        
-#        ## Top 6 Calssified Ads
-#        ad_list=[]
-#        ad_list=classifiedads.get_list(order_by=['?'], limit=6)
-#        ad_list_context = Context({'ad_list': ad_list})
-#        
-#        ## Save the Output to File
-#        OUTPUT.write(TEMPLATE.render(ad_list_context))
-#        OUTPUT.close()
