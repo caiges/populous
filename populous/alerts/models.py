@@ -43,7 +43,6 @@ class SubscriptionManager(models.Manager):
             p = Subscription.objects.get(id=row[0], user=User.objects.get(pk=row[1]), url=row[2])
             result_list.append(p)
         for result in result_list:
-            print result
             result.execute()
 
 class Alert(models.Model):
@@ -129,7 +128,6 @@ class Subscription(models.Model):
         # Send the alert
         send_time, last_sent_obj_id = alert.send(self)
         
-        print "%s %s" % (send_time, last_sent_obj_id)
         if send_time and last_sent_obj_id:
             self.last_sent_time = send_time
             self.last_sent_obj_id = last_sent_obj_id
@@ -143,10 +141,10 @@ class Subscription(models.Model):
             needs_confirmation += 1
         return needs_confirmation
     
-    def send_confirmation_code(self, type):
+    def send_confirmation_code(self, msg_type):
         CONFIRMATION_EMAIL_TEMPLATE = 'alerts/confirmation_email.html'
         from django.core.mail import EmailMessage
-        if type == 'email':
+        if msg_type == 'email':
             SUBJECT = '''Your e-mail alert confirmation code for %s''' % self.site.name
             if not self.confirmation_code_email:
                 self.confirmation_code_email = self._get_random_confirmation_code_email()
@@ -161,7 +159,7 @@ class Subscription(models.Model):
             else:
                 email_response = '''Your e-mail alert confirmation code is:\n\n\t\t%s''' % (self.confirmation_code_email)
             return EmailMessage(to=[self.email_address], subject=SUBJECT, body=email_response).send()
-        if type == 'sms':
+        if msg_type == 'sms':
             SUBJECT = '''SMS alert confirmation code'''
             if not self.confirmation_code_sms:
                 self.confirmation_code_sms = self._get_random_confirmation_code_sms()
@@ -191,4 +189,4 @@ class Subscription(models.Model):
                 cls.objects.get(confirmation_code_sms=code)
             except cls.DoesNotExist:
                 break
-        return code
+        return codef

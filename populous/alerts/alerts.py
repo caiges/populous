@@ -82,9 +82,8 @@ class Alert(object):
         
         # Retrive items from feed
         items = list(self.items())
-        print items
         if not items:
-            print "No items to send"
+            # No items to send
             return None, None
         
         # Initialize last_sent_content and last_sent_obj_id if they don't exist
@@ -93,31 +92,24 @@ class Alert(object):
             subscription.last_sent_content = ContentType.objects.get_for_model(items[0])
             subscription.last_sent_obj_id = items[0]._meta.pk.value_from_object(items[0])
             subscription.save()
-            print "No content Initialized"
             return None, None
         
         # Check to see if enough time has passed to send another alert
         if subscription.last_sent_time + timedelta(days=subscription.frequency) > send_time:
-            print "It's too soon still"
+            # It's too soon still
             return None, None
         
         # Determine new items
         last_item = subscription.last_sent_content.get_object_for_this_type(id=subscription.last_sent_obj_id)
-        print last_item
         last_item_index = items.index(last_item)
-        print last_item_index
         new_items = items[:last_item_index]
-        print new_items
         
         # Render messages to send
         #   Messages is a tupple with three items: (e_mail response, sms response, IM response)
         if new_items:
             messages = self.render(subscription, new_items)
-            print messages[0]
-            print messages[1]
-            print messages[2]
         else:
-            print "No new items"
+            # No new items
             return None, None
         
         # If there are messages to send, send them
@@ -134,7 +126,7 @@ class Alert(object):
         
         # If no messages could be sent, return (None, None)
         if messages_sent == 0:
-            print "No messages sent"
+            # No messages sent
             return None, None
         
         return send_time, new_items[0].id
