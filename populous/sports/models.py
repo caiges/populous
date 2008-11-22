@@ -20,7 +20,7 @@ class Sport(models.Model):
         return self.name
 
 class MatchManager(models.Manager):
-    _("""
+    """
     Special ``Manager`` for ``Match`` objects which allows for easy retrieval of ``Match``es
     for a ``School``.
     
@@ -31,7 +31,7 @@ class MatchManager(models.Manager):
     
     # Get a queryset of all basketball matches in which Stanford played.
     Match.objects.school(name="Stanford").filter(sport__name="Basketball")
-    """)
+    """
     def school(self, **kwargs):
         if kwargs.get('name'):
             school = kwargs.get('name')

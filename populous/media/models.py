@@ -55,7 +55,7 @@ class Audio(models.Model):
         return self.title
     
     def mime_type(self):
-        _("""Return the correct mime-type for an video file depending on its audio_type""")
+        """Return the correct mime-type for an video file depending on its audio_type"""
         return u"%s" % self.type.mime_type
     
     def get_audio_url(self):
@@ -86,7 +86,7 @@ class File(models.Model):
         get_latest_by = "date_uploaded"
     
     def mime_type(self):
-        _("""Return the correct mime-type for a file depending on its file_type""")
+        """Return the correct mime-type for a file depending on its file_type"""
         return u"%s" % self.type.mime_type
 
 ##########
@@ -124,7 +124,7 @@ class Photo(models.Model):
         return u"/media/photos/%s/%s/" % (self.creation_date.strftime("%Y/%b/%d").lower(), self.id)
     
     def mime_type(self):
-        _("""Return the correct mime-type for a file depending on its file_type""")
+        """Return the correct mime-type for a file depending on its file_type"""
         return u"%s" % self.type.mime_type
 
 ##########
@@ -176,7 +176,7 @@ class Video(models.Model):
             return self.url
     
     def mime_type(self):
-        _("""Return the correct mime-type for a file depending on its file_type""")
+        """Return the correct mime-type for a file depending on its file_type"""
         return u"%s" % self.type.mime_type
 
 class AlternateVideo(models.Model):
@@ -200,5 +200,5 @@ class AlternateVideo(models.Model):
             return self.url
     
     def mime_type(self):
-        _("""Return the correct mime-type for a file depending on its file_type""")
+        """Return the correct mime-type for a file depending on its file_type"""
         return u"%s" % self.type.mime_type

@@ -36,7 +36,7 @@ class RecentScoresNode(CachedNode):
             return _('<!-- Error: No sport scores could be retrieved -->')
 
 def do_scores(parser, token):
-    _("""
+    """
     Usage:
     {% get_sport_scores [num scores] [sport] [gender] %}
     
@@ -52,7 +52,7 @@ def do_scores(parser, token):
         Get the latest ``men``s ``football`` score:
         >>> {% get_sport_scores 1 football men %}
         
-    """)
+    """
     bits = token.contents.split()
     if len(bits) == 2:
         return RecentScoresNode(bits[1], None, None)    # No filter

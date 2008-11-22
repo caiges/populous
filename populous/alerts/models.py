@@ -169,7 +169,8 @@ class Subscription(models.Model):
             sms_response = '''SMS alert confirmation code for %s is: "%s"''' % (self.site.name, self.confirmation_code_sms)
             return EmailMessage(to=[self.sms_provider.get_email_address(self.sms_number)], subject=SUBJECT, body=sms_response).send()
     
-    def _get_random_confirmation_code_email(cls):
+    @classmethod
+    def get_random_confirmation_code_email(cls):
         "Generates and returns a random 32-character string that's not in use."
         import md5, random
         while 1:
@@ -179,10 +180,9 @@ class Subscription(models.Model):
             except cls.DoesNotExist:
                 break
         return code
-    _get_random_confirmation_code_email = classmethod(_get_random_confirmation_code_email)
 
-    
-    def _get_random_confirmation_code_sms(cls):
+    @classmethod
+    def get_random_confirmation_code_sms(cls):
         "Generates and returns a random 6-character string that's not in use."
         import md5, random
         while 1:
@@ -192,4 +192,3 @@ class Subscription(models.Model):
             except cls.DoesNotExist:
                 break
         return code
-    _get_random_confirmation_code_sms = classmethod(_get_random_confirmation_code_sms)

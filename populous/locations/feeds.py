@@ -16,7 +16,7 @@ class LocationFeed(Feed):
         return None
     
     def item_link(self):
-        return '/poop'
+        return '/'
     
     def items(self, obj):
         if obj is not None:

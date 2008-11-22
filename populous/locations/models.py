@@ -108,14 +108,14 @@ class Location(models.Model):
         return u"%s: %s" % (self.location_type, self.name)
     
     def get_parent_type(self, location_type):
-        _("""
+        """
         This method will return the _first_ parent ``Location`` that matches ``location_type``.
         
         Example:
             >>> la = Location.objects.get(slug='los_angeles')
             >>> la.get_parent_type('state')
             state: California
-        """)
+        """
         parent = self.parent
         while parent:
             if parent.location_type.name == location_type:
