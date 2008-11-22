@@ -17,17 +17,14 @@ class TopicCollectionNode(template.Node):
         
         # Try the simple case first, exact match
         try:
-            print "Trying %s" % url
             collection = TopicCollection.objects.get(url__iexact=url)
         except TopicCollection.DoesNotExist:
             collection = []
             prefix = url
             while prefix:
                 prefix = "%s/" % prefix.rstrip('/').rsplit('/', 1)[0]  # Everything but the last bit--need trailing slash too!
-                print "Trying %s" % prefix
                 try:
                     collection = TopicCollection.objects.get(url__iexact=prefix)
-                    print "Found match: %s" % prefix
                     break
                 except TopicCollection.DoesNotExist:
                     pass

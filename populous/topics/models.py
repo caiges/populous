@@ -17,6 +17,9 @@ class Topic(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('topics-detail', [self.slug])
+    
+    def get_similar_topics(self):
+        return self._default_manager.filter(category=self.category).exclude(pk=self.pk)
 
 class TopicCollection(models.Model):
     url    = models.CharField(_('URL'), max_length=500, blank=True)
