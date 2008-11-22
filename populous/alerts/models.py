@@ -1,14 +1,13 @@
 from django.db import models
-from django.contrib.auth.models import User
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.sites.models import Site
 from django.http import HttpResponse
 from django.template import Context, loader
 from django.utils.translation import ugettext as _
+from django.contrib.localflavor.us.models import PhoneNumberField
+from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.sites.models import Site
 
 from populous.sms.models import Provider
-
-from django.contrib.localflavor.us.models import PhoneNumberField
 
 FREQUENCY_CHOICES = (
     (0, 'Hourly'),

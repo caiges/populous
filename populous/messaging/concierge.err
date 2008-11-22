@@ -1,2 +1,0 @@
-
-** (process:26700): CRITICAL **: x509_tls_peers_init: assertion `ret == 0' failed
