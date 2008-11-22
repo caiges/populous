@@ -5,8 +5,10 @@ register = template.Library()
 
 def do_inline_markup(parser, token):
     """
+    Usage::
     
     {% inline_markup obj.field %}
+    
     """
     bits = token.split_contents()
     if len(bits) != 2:

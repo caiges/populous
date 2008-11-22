@@ -53,7 +53,9 @@ class RegisteredInline(models.Model):
     def get_form(self):
         return self.inline_class.form
         
-    
+
+## TODO: Currently field-level control doesn't work.
+
 class RegisteredInlineField(models.Model):
     app_label = models.CharField(max_length=500, editable=False)
     model_name = models.CharField(max_length=500, editable=False)

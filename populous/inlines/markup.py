@@ -4,7 +4,7 @@ from django.utils.safestring import mark_safe
 from populous.inlines.utils import get_inline
 
 
-data = """
+EXAMPLE_DATA = """
 <content>
   <h3>Some Header</h3>
   <p>Body text...blah blah blah...</p>

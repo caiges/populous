@@ -6,10 +6,10 @@ from populous.inlines.utils import get_inline
 import cjson
 
 def form(request, app_label, inline_name):
-    #try:
-    inline = RegisteredInline.objects.get(app_label=app_label, inline_name=inline_name)
-    #except:
-    #    inline = None
+    try:
+        inline = RegisteredInline.objects.get(app_label=app_label, inline_name=inline_name)
+    except RegisteredInline.DoesNotExist:
+        inline = None
     
     if inline is not None:
         form = inline.inline_class().form

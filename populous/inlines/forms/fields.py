@@ -14,6 +14,6 @@ class InlineField(forms.CharField):
         schema_path = get_absolute_schema_path(self.schema_path)
         xml_validator = RelaxNGValidator(schema_path, self.additional_root_element)
         
-        #TODO: This shouldn't be hard-coded to `content`
+        # TODO: This shouldn't be hard-coded to `content`
         value = u"<content>%s</content>" % html_to_unicode(value)
         return xml_validator.forms_validate(value)
