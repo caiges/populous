@@ -86,17 +86,33 @@ class Story(models.Model):
     def __unicode__(self):
         return self.headline
     
+    @models.permalink
     def get_absolute_url(self):
-        return reverse('news-story_detail', None, (), {
-            'year': self.pub_date.year,
-            'month': self.pub_date.strftime('%b').lower(),
-            'day': self.pub_date.day,
-            'slug': self.slug,
-        })
+        return (
+            'news-story_detail', [
+                self.pub_date.year,
+                self.pub_date.strftime('%b').lower(),
+                self.pub_date.day,
+                self.slug
+            ]
+        )
+
+class AdditionalContent(models.Model):
+    story = models.ForeignKey(Story)
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+    content_object = generic.GenericForeignKey('content_type', 'object_id')
+    
+    class Meta:
+        verbose_name = _("additional content")
+        verbose_name_plural = _("additional content")
+    
+    def __unicode__(self):
+        return u"%s" % self.content_object
 
 class Collection(models.Model):
     title = models.CharField(_('name'), max_length=200)
-    url = models.CharField(_('url'), max_length=500, unique=True)  # TODO: URLField doesn't work here because it is a relative url...
+    url = models.CharField(_('url'), max_length=500, unique=True)
     content = InlineField(blank=True, null=True)
     category = models.ForeignKey(Category, verbose_name=_('category'))
     limit = models.PositiveIntegerField(_('max number of objects'), default=15,
@@ -155,6 +171,7 @@ class Collection(models.Model):
         
         remainder = self.limit - len(object_set)
         if remainder > 0:
+            # TODO Impliment behavior inline support instead of simple object insertion
             for obj in Story.objects.filter(categories=self.category).order_by('-pub_date')[:remainder]:
                 append = True
                 for item in self.breakingnews_set.all():
@@ -178,6 +195,7 @@ class BreakingNews(models.Model):
     class Meta:
         verbose_name = _("breaking news item")
         verbose_name_plural = _("breaking news items")
+        get_latest_by = 'start_date'
     
     def __unicode__(self):
         return u"%s" % self.content_object

@@ -3,11 +3,9 @@ from django.contrib.sites.models import Site
 from django.template import loader, RequestContext
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from django.core.xheaders import populate_xheaders
 from django.utils.safestring import mark_safe
 
 from news.models import Collection
-
 
 def collection(request, url):
     if not url.endswith('/') and settings.APPEND_SLASH:

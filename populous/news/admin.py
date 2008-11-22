@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib import admin
 
-from populous.news.models import BreakingNews, Collection, CollectionBehavior, CollectionItem, Story, Dateline
+from populous.news.models import AdditionalContent, BreakingNews, Collection, CollectionBehavior, CollectionItem, Story, Dateline
 
 class BreakingNewsInline(admin.StackedInline):
     model = BreakingNews
@@ -23,6 +23,9 @@ class CollectionAdmin(admin.ModelAdmin):
     search_fields = ('title', 'url', 'content',)
     inlines = (CollectionBehaviorInline, CollectionItemInline, BreakingNewsInline,)
 
+class AdditionalContentInline(admin.StackedInline):
+    model = AdditionalContent
+
 class StoryAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
@@ -42,6 +45,7 @@ class StoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("headline",)}
     search_fields = ['headline', 'subhead', 'tease', 'story', 'post_story_blurb']
     filter_horizontal = ('sites', 'categories', 'topics')
+    inlines = (AdditionalContentInline,)
     
     class Media:
         js = [settings.ADMIN_MEDIA_PREFIX + 'filebrowser/js/AddFileBrowser.js']
