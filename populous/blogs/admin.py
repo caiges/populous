@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib import admin
 
-from populous.blogs.models import Blog, Entry
+from populous.blogs.models import Blog, BlogCollection, Entry
 
 class BlogAdmin(admin.ModelAdmin):
     fieldsets = (
@@ -9,7 +9,10 @@ class BlogAdmin(admin.ModelAdmin):
             'fields': ('title', 'tags', 'description', 'image', 'post_entry_note', 'contributors')
         }),
         ('Meta Data', {
-            'fields': ('status', 'categories', 'default_comment_status', 'sites', 'template_name', 'slug')
+            'fields': ('status', 'categories', 'collection', 'default_comment_status', 'sites', 'slug')
+        }),
+        ('Template Overrides', {
+            'fields': ('template_name_blog', 'template_name_date_archive', 'template_name_entry')
         }),
     )
     prepopulated_fields = {"slug": ("title",)}
@@ -19,6 +22,16 @@ class BlogAdmin(admin.ModelAdmin):
     
     class Media:
         js = [settings.ADMIN_MEDIA_PREFIX + 'filebrowser/js/AddFileBrowser.js']
+
+class BlogCollectionAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'slug', 'description', 'template_name')
+        }),
+    )
+    prepopulated_fields = {"slug": ("title",)}
+    list_display = ('title',)
+    search_field = ('title', 'description',)
 
 class EntryAdmin(admin.ModelAdmin):
     fieldsets = (
@@ -36,4 +49,5 @@ class EntryAdmin(admin.ModelAdmin):
     date_hierarchy = "pub_date"
 
 admin.site.register(Blog, BlogAdmin)
+admin.site.register(BlogCollection, BlogCollectionAdmin)
 admin.site.register(Entry, EntryAdmin)
