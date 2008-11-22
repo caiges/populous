@@ -1,5 +1,6 @@
-from populous.news.parts.alerts import SectionAlert
+# TODO: Redo alert registration
+from populous.news.alerts import CollectionAlert
 
 ALERT_DICT = {
-    'sections': SectionAlert,
+    'collections': CollectionAlert,
 }

@@ -141,7 +141,7 @@ class Alert(object):
 
 class AlertForFeed(Alert):
     """
-This class can be used to create an ``Alert`` from a pre-existing ``Feed`` class.
+    This class can be used to create an ``Alert`` from a pre-existing ``Feed`` class.
     In order to do so, you must define ``feed_class`` which should be a valid
     ``django.contrib.syndication.feeds.Feed`` class.
     """
