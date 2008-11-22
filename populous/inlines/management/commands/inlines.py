@@ -89,12 +89,12 @@ class Command(BaseCommand):
                             else:
                                 print "\tField doesn't exist yet; adding it."
             
-            # Generate all schemas
-            for field in RegisteredInlineField.objects.all():
-                if self.verbose:
-                    print "Writing schema for %s.%s" % (field.app_label, field.field_name)
-                
-                output_schema = "%s_%s_%s.rng" % (field.app_label, field.model_name, field.field_name)
-                schema = Schema(field.schema_path, output_schema)
-                schema.write()
+                # Generate all schemas for this model (if it has any)
+                for field in RegisteredInlineField.objects.filter(app_label=model._meta.app_label, model_name=model._meta.module_name):
+                    if self.verbose:
+                        print "Writing schema for %s.%s" % (field.app_label, field.field_name)
+                    
+                    output_schema = "%s_%s_%s.rng" % (field.app_label, field.model_name, field.field_name)
+                    schema = Schema(field.schema_path, output_schema)
+                    schema.write()
                 

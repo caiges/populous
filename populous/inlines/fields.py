@@ -6,7 +6,6 @@ from django.utils.text import capfirst
 from populous.inlines.forms.fields import InlineField as InlineFormField
 
 def get_default_schema():
-    #return __file__.rsplit('/', 1)[0] + "/schemas/default_schema.rng"
     return "default_schema.rng"
 
 class InlineField(models.TextField):
