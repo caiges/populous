@@ -121,7 +121,10 @@ class Collection(models.Model):
         help_text=_("If specified, this collection page will not show up until after the specified date."))
     end_date   = models.DateTimeField(_('end date'), blank=True, null=True,
         help_text=_("If specified, this collection page will not be visible after the specified date."))
-    template_name = models.CharField(_('template name'), max_length=500, blank=True)
+    template_name = models.CharField(_('template name'), max_length=500, blank=True,
+        help_text=_(
+            "This template will override the collection page.  Leave off the leading slash.  If this isn't provided, the system will default to 'news/collections/default.html'<br>"
+            "Example: 'news/collection_election_special.html'"))
     sites = models.ManyToManyField(Site)
     
     class Meta:
@@ -130,6 +133,9 @@ class Collection(models.Model):
     
     def __unicode__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        return self.url
     
     def is_visible(self):
         if self.start_date and not self.start_date <= datetime.now():
@@ -214,6 +220,13 @@ class CollectionItem(models.Model):
     
     def __unicode__(self):
         return u"%s" % self.content_object
+    
+    def get_absolute_url(self):
+        try:
+            return self.content_object.get_absolute_url()
+        except:
+            # TODO: This needs to be handled...
+            return None
 
 ORDERING_CHOICES = (
     ('pub_date DESC', 'Publication date (Newest first)'),

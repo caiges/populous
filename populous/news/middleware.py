@@ -1,7 +1,7 @@
 from django.http import Http404
 from django.conf import settings
 
-from news.views import collection
+from populous.news.views import collection
 
 class CollectionFallbackMiddleware(object):
     def process_response(self, request, response):
