@@ -1,5 +1,4 @@
 from django.contrib import admin
-from populous.alerts.models import Alert, Subscription
+from populous.alerts.models import Subscription
 
-admin.site.register(Alert)
 admin.site.register(Subscription)

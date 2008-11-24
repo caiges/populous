@@ -1,137 +1,82 @@
+from datetime import datetime, timedelta
 from django.db import models
-from django.http import HttpResponse
-from django.template import Context, loader
 from django.utils.translation import ugettext as _
 from django.contrib.localflavor.us.models import PhoneNumberField
-from django.contrib.auth.models import User
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.sites.models import Site
 
-from populous.sms.models import Provider
+from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
+from django.contrib.contenttypes.models import ContentType
+from populous.messaging.models import SMSProvider
+
+from populous.alerts.utils import parse_feed
+
 
 FREQUENCY_CHOICES = (
-    (0, 'Hourly'),
-    (0.5, 'Twice Daily'),
-    (1, 'Daily'),
-    (7, 'Weekly'),
+    (60*60,         'Hourly'),
+    (60*60*12,      'Twice Daily'),
+    (60*60*24,      'Daily'),
+    (60*60*24*7,    'Weekly'),
 )
 
 class SubscriptionManager(models.Manager):
-    def execute_due(self):
-        from django.db import connection
-        cursor = connection.cursor()
-        cursor.execute("""
-        SELECT a.*
-        FROM alerts_subscription AS a, alerts_subscription AS b
-        WHERE
-            a.id = b.id
-            AND
-            (
-                extract( days from age( now(), a.last_sent_time ) ) +
-                extract( hours from age( now(), a.last_sent_time ) ) / 24
-            )
-            >= b.frequency
-            AND 
-            (
-                ( a.via_sms = True AND a.sms_confirmed = True )
-                OR
-                ( a.via_email = True AND a.email_confirmed = True )
-            )
-        """)
-        result_list = []
-        for row in cursor.fetchall():
-            p = Subscription.objects.get(id=row[0], user=User.objects.get(pk=row[1]), url=row[2])
-            result_list.append(p)
-        for result in result_list:
-            result.execute()
-
-class Alert(models.Model):
-    user = models.ForeignKey(User, verbose_name=_('User'))
-    url = models.CharField(_('Alert URL'), max_length=200)
-    send_time = models.DateTimeField(_('Send time'))
-    site = models.ForeignKey(Site, blank=True, verbose_name=_('Site'))
+    def due(self):
+        """
+        Returns a queryset of all ``Subcription`` objects that are due
+        to be sent.
+        """
+        import operator
+        lookups = []
+        for frequency, name in FREQUENCY_CHOICES:
+            time = datetime.now() - timedelta(seconds=frequency)
+            lookups.append(models.Q(frequency=frequency, last_sent_time__lte=time))
+        return self.filter(reduce(operator.or_, lookups))
     
-    # E-mail
-    via_email = models.BooleanField(_('Send via e-mail'), blank=True, null=True, default=False)
-    email_address = models.EmailField(_('E-mail address'), blank=True)
-    allow_html = models.BooleanField(_('Recieve HTML e-mail'), blank=True, null=True, default=True)
-    
-    # SMS
-    via_sms = models.BooleanField(_('Send via SMS'), blank=True, null=True, default=False)
-    mobile_number = PhoneNumberField(_('Phone number for SMS messages'), blank=True)
-    provider = models.ForeignKey(Provider, blank=True, null=True, verbose_name=_('SMS Provider'))
-    
-    # Instant Messanger
-    # TODO: Impliment This
-    #via_im = models.BooleanField(_('Send via IM'), blank=True, null=True, default=False)
-    #screen_name = models.CharField(blank=True)
-    #messanger_service = models.CharField(choices=IM_PROVIDERS, blank=True)
-    
-    def __unicode__(self):
-        return u'An Alert'
-    
-    def execute(self):
-        pass
+    def send_due(self, fail_silently=True):
+        """
+        Sends an alerts to each user who has a due ``Subscription`` if there are new items
+        for their subscription.
+        
+        *NOTE*: This can potentially take awhile to complete because it will potentially
+        create quite a few remote connections.  This should probably be run by cron once
+        or twice an hour.
+        """
+        feed_cache = {}
+        for subscription in self.due():
+            feed_url = subscription.feed_url
+            if not feed_cache.has_key(feed_url):
+                # Check the feed
+                feed_cache[feed_url] = parse_feed(feed_url, fail_silently)
+            subscription.send_alert(feed_cache.get(feed_url))
+                
+                
 
 class Subscription(models.Model):
     user = models.ForeignKey(User, verbose_name=_('user'))
-    url = models.CharField(_('alert URL'), max_length=200)
-    slug = models.CharField(max_length=100)
-    param = models.CharField(max_length=200)
-    frequency = models.FloatField(_('maximum frequency'), choices=FREQUENCY_CHOICES, default=1)
+    title = models.CharField(_('title'), max_length=500)
+    feed_url = models.CharField(_('feed URL'), max_length=200, help_text=_('This should be a valid feed url.'))
+    frequency = models.FloatField(_('maximum frequency'), choices=FREQUENCY_CHOICES, default=60*60*24)
     site = models.ForeignKey(Site, blank=True)
-    last_sent_time = models.DateTimeField(_('last sent time'), auto_now=True)
-    last_sent_content = models.ForeignKey(ContentType, blank=True, null=True, verbose_name=_('last sent content type'))
-    last_sent_obj_id = models.PositiveIntegerField(_('last sent object ID'), blank=True, null=True)
+    last_sent_time = models.DateTimeField(_('last sent time'), auto_now_add=True)
+    last_item_date = models.DateTimeField(_('most recent item'), auto_now_add=True)
     
     # E-mail
     via_email = models.BooleanField(_('Send via e-mail'), blank=True, null=True, default=False)
     email_address = models.EmailField(_('E-mail address'), blank=True)
     allow_html = models.BooleanField(_('Recieve HTML e-mail'), blank=True, null=True, default=True)
-    email_confirmed= models.BooleanField(_('E-mail address has been confirmed'), blank=True, null=True, default=False)
+    email_confirmed = models.BooleanField(_('E-mail address has been confirmed'), blank=True, null=True, default=False)
     confirmation_code_email = models.CharField(_('confirmation code (e-mail)'), max_length=32, blank=True)
     
     # SMS
     via_sms = models.BooleanField(_('Send via SMS'), blank=True, null=True, default=False)
     sms_number = PhoneNumberField(_('Phone number for SMS messages'), blank=True)
-    sms_provider = models.ForeignKey(Provider, blank=True, null=True, verbose_name=_('SMS Provider'))
+    sms_provider = models.ForeignKey(SMSProvider, blank=True, null=True, verbose_name=_('SMS Provider'))
     sms_confirmed = models.BooleanField(_('Mobile number has been confirmed'), blank=True, null=True, default=False)
     confirmation_code_sms = models.CharField(_('confirmation code (SMS)'), max_length=6, blank=True)
     
-    # Instant Messenger
-    #via_im = models.BooleanField(_('send via IM'), blank=True, null=True, default=False)
-    
-    # Managers
     objects = SubscriptionManager()
     
     def __unicode__(self):
-        return u"%s - %s" % (self.slug, self.param)
-    
-    def save(self):
-        alert_url = self.url.split('/', 2)[2]
-        try:
-            self.slug, self.param = alert_url.split('/', 1)
-        except ValueError:
-            self.slug, self.param = alert_url, ''
-        super(Subscription, self).save()
-    
-    def execute(self, request=None):
-        if request == None:
-            from django.http import HttpRequest
-            request = HttpRequest
-            request.path = self.url
-        
-        from populous.alerts.registered import ALERT_DICT
-        # Determine the alert class
-        alert = ALERT_DICT[self.slug](self.slug, self.param, request)
-        
-        # Send the alert
-        send_time, last_sent_obj_id = alert.send(self)
-        
-        if send_time and last_sent_obj_id:
-            self.last_sent_time = send_time
-            self.last_sent_obj_id = last_sent_obj_id
-            self.save()
+        return self.title
     
     def needs_confirmation(self):
         needs_confirmation = 0
@@ -141,20 +86,35 @@ class Subscription(models.Model):
             needs_confirmation += 1
         return needs_confirmation
     
+    def send_alert(self, items):
+        """
+        Send an alert if there are any items in ``items`` that have a newer
+        ``pub_date`` than the most recently recorded ``last_item_date``.
+        """
+        from populous.messaging import EmailMessage
+        for item in items:
+            if item.get('pub_date') > self.last_item_date:
+                if self.via_email and self.email_confirmed:
+                    email = EmailMessage(subject=self.title, body='There was a new item posted to %s' % self.title,
+                        from_email='HappyAlertBot@demo.populousproject.com', to=[self.email_address])
+                    email.send(fail_silently=False)
+                
+                # TODO: Other messaging schemes
+                return
+    
     def send_confirmation_code(self, msg_type):
-        CONFIRMATION_EMAIL_TEMPLATE = 'alerts/confirmation_email.html'
         from django.core.mail import EmailMessage
         if msg_type == 'email':
-            SUBJECT = '''Your e-mail alert confirmation code for %s''' % self.site.name
+            SUBJECT = 'Your e-mail alert confirmation code for %s' % self.site.name
             if not self.confirmation_code_email:
-                self.confirmation_code_email = self._get_random_confirmation_code_email()
+                self.confirmation_code_email = self.get_random_confirmation_code_email()
                 self.save()
             if self.allow_html:
                 c = Context({
                     'code': self.confirmation_code_email,
                     'site': self.site
                 })
-                t = loader.get_template(CONFIRMATION_EMAIL_TEMPLATE)
+                t = loader.get_template('alerts/confirmation_email.html')
                 email_response = HttpResponse(t.render(c))
             else:
                 email_response = '''Your e-mail alert confirmation code is:\n\n\t\t%s''' % (self.confirmation_code_email)
@@ -189,4 +149,4 @@ class Subscription(models.Model):
                 cls.objects.get(confirmation_code_sms=code)
             except cls.DoesNotExist:
                 break
-        return codef
+        return code
